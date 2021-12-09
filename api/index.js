@@ -2,8 +2,7 @@ const app = require("./app");
 
 (async () => {
   try {
-    await app.listen(3000);
-    console.info("Server is running on port http://localhost:3000");
+    await app.listen(process.env.APP_PORT);
   } catch (err) {
     app.log.error(err);
     process.exit(1);
