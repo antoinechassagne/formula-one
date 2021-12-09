@@ -7,9 +7,11 @@ function team(_, params) {
 }
 
 function teams(_, { query, skip, limit }) {
-  const teams = db.teams.filter(team => {
-    return !Object.keys(query).some(key => team[key] !== query[key]);
-  });
+  const teams = query
+    ? db.teams.filter(team => {
+        return !Object.keys(query).some(key => team[key] !== query[key]);
+      })
+    : db.teams;
   return teams.slice(skip, limit);
 }
 

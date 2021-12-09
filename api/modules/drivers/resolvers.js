@@ -7,9 +7,11 @@ function driver(_, params) {
 }
 
 function drivers(_, { query, skip, limit }) {
-  const drivers = db.drivers.filter(driver => {
-    return !Object.keys(query).some(key => driver[key] !== query[key]);
-  });
+  const drivers = query
+    ? db.drivers.filter(driver => {
+        return !Object.keys(query).some(key => driver[key] !== query[key]);
+      })
+    : db.drivers;
   return drivers.slice(skip, limit);
 }
 
