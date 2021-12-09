@@ -11,6 +11,7 @@ type Driver {
   id: ID!
   firstName: String!
   lastName: String!
+  nationality: String!
   teamId: ID!
   team: Team!
 }
