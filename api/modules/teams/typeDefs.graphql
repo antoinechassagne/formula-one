@@ -12,6 +12,7 @@ type Team {
   shortName: String!
   fullName: String!
   powerUnit: String!
+  drivers: [Driver]!
 }
 
 input TeamsInput {

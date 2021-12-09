@@ -12,6 +12,7 @@ type Driver {
   firstName: String!
   lastName: String!
   teamId: ID!
+  team: Team!
 }
 
 input DriversInput {

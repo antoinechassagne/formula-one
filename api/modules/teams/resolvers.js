@@ -18,4 +18,12 @@ function createTeam(_, { data }) {
   return { id, ...data };
 }
 
-module.exports = { Query: { team, teams }, Mutation: { createTeam } };
+function drivers(team) {
+  return db.drivers.filter(driver => driver.teamId === team.id);
+}
+
+module.exports = {
+  Query: { team, teams },
+  Mutation: { createTeam },
+  Team: { drivers }
+};
