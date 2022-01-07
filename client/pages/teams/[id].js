@@ -13,10 +13,33 @@ export default function Team({ team }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { id } = context.query;
+export async function getStaticPaths() {
+  const { teams } = await fetchTeams();
+  const paths = teams.map(({ id }) => ({
+    params: { id }
+  }));
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const { id } = context.params;
   const { team } = await fetchTeam(id);
   return { props: { team } };
+}
+
+async function fetchTeams() {
+  const FETCH_TEAMS = gql`
+    query Teams($limit: Int) {
+      teams(limit: $limit) {
+        id
+      }
+    }
+  `;
+  const { data } = await GQLClient.query({
+    query: FETCH_TEAMS,
+    variables: { limit: 1000 }
+  });
+  return data;
 }
 
 async function fetchTeam(id) {
