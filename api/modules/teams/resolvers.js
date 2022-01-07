@@ -1,6 +1,6 @@
 const { getTeam, getTeams } = require("./repository");
 
-async function team(_, params) {
+async function team(_, { id }) {
   const { data } = await getTeam({ id });
   return data || null;
 }
