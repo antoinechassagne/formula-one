@@ -1,24 +1,21 @@
-import Link from "next/link";
 import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
 
-async function fetchDriver(id) {
-  const { data } = await GQLClient.query({
-    query: gql`
-        {
-          driver(id: "${id}") {
-            firstName
-            lastName
-            nationality
-            team {
-              id
-              shortName
-            }
-          }
-        }
-      `
-  });
-  return data;
+export default function Driver({ driver }) {
+  return (
+    <>
+      <h1>
+        {driver.firstName} {driver.lastName}
+      </h1>
+      {driver.number ? <div>Number : {driver.number}</div> : null}
+      {driver.code ? <div>Code : {driver.code}</div> : null}
+      <div>Birth date : {driver.birthDate}</div>
+      <div>Nationality : {driver.nationality}</div>
+      <a href={driver.wikipediaUrl} target={"_blank"}>
+        Wikipedia page
+      </a>
+    </>
+  );
 }
 
 export async function getServerSideProps(context) {
@@ -27,24 +24,24 @@ export async function getServerSideProps(context) {
   return { props: { driver } };
 }
 
-export default function Driver({ driver }) {
-  return (
-    <>
-      <h1>
-        {driver.firstName} {driver.lastName}
-      </h1>
-      <div>Nationalité : {driver.nationality}</div>
-      <div>
-        Écurie :{" "}
-        <Link
-          href={{
-            pathname: "/teams/[id]",
-            query: { id: driver.team.id }
-          }}
-        >
-          {driver.team.shortName}
-        </Link>
-      </div>
-    </>
-  );
+async function fetchDriver(id) {
+  const FETCH_DRIVER = gql`
+    query Driver($id: ID!) {
+      driver(id: $id) {
+        id
+        number
+        code
+        firstName
+        lastName
+        birthDate
+        nationality
+        wikipediaUrl
+      }
+    }
+  `;
+  const { data } = await GQLClient.query({
+    query: FETCH_DRIVER,
+    variables: { id }
+  });
+  return data;
 }

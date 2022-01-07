@@ -1,25 +1,16 @@
-import Link from "next/link";
 import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
 
-async function fetchTeam(id) {
-  const { data } = await GQLClient.query({
-    query: gql`
-        {
-          team(id: "${id}") {
-            shortName
-            fullName
-            powerUnit
-            drivers {
-              id
-              firstName
-              lastName
-            }
-          }
-        }
-      `
-  });
-  return data;
+export default function Team({ team }) {
+  return (
+    <>
+      <h1>{team.name}</h1>
+      <div>Nationality : {team.nationality}</div>
+      <a href={team.wikipediaUrl} target={"_blank"}>
+        Wikipedia page
+      </a>
+    </>
+  );
 }
 
 export async function getServerSideProps(context) {
@@ -28,29 +19,20 @@ export async function getServerSideProps(context) {
   return { props: { team } };
 }
 
-export default function Team({ team }) {
-  return (
-    <>
-      <h1>{team.shortName}</h1>
-      <div>Nom complet : {team.fullName}</div>
-      <div>Moteur : {team.powerUnit}</div>
-      <div>
-        Pilotes :
-        <ul>
-          {team.drivers.map(driver => (
-            <li key={driver.id}>
-              <Link
-                href={{
-                  pathname: "/drivers/[id]",
-                  query: { id: driver.id }
-                }}
-              >
-                {`${driver.firstName} ${driver.lastName}`}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
-  );
+async function fetchTeam(id) {
+  const FETCH_TEAM = gql`
+    query Team($id: ID!) {
+      team(id: $id) {
+        id
+        name
+        nationality
+        wikipediaUrl
+      }
+    }
+  `;
+  const { data } = await GQLClient.query({
+    query: FETCH_TEAM,
+    variables: { id }
+  });
+  return data;
 }

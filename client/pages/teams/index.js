@@ -2,29 +2,10 @@ import Link from "next/link";
 import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
 
-async function fetchTeams() {
-  const { data } = await GQLClient.query({
-    query: gql`
-      {
-        teams {
-          id
-          shortName
-        }
-      }
-    `
-  });
-  return data;
-}
-
-export async function getServerSideProps() {
-  const { teams } = await fetchTeams();
-  return { props: { teams } };
-}
-
 export default function Teams({ teams }) {
   return (
     <>
-      <h1>Écuries</h1>
+      <h1>Teams</h1>
       <ul>
         {teams.map(team => (
           <li key={team.id}>
@@ -34,11 +15,32 @@ export default function Teams({ teams }) {
                 query: { id: team.id }
               }}
             >
-              {team.shortName}
+              {team.name}
             </Link>
           </li>
         ))}
       </ul>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const { teams } = await fetchTeams();
+  return { props: { teams } };
+}
+
+async function fetchTeams() {
+  const FETCH_TEAMS = gql`
+    query Teams($limit: Int) {
+      teams(limit: $limit) {
+        id
+        name
+      }
+    }
+  `;
+  const { data } = await GQLClient.query({
+    query: FETCH_TEAMS,
+    variables: { limit: 100 }
+  });
+  return data;
 }

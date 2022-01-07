@@ -9,10 +9,10 @@ export default function BaseHeader() {
       <nav>
         <ul>
           <li>
-            <Link href="/drivers">Tous les pilotes</Link>
+            <Link href="/drivers">Drivers</Link>
           </li>
           <li>
-            <Link href="/teams">Toutes les écuries</Link>
+            <Link href="/teams">Teams</Link>
           </li>
         </ul>
       </nav>
