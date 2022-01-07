@@ -2,33 +2,10 @@ import Link from "next/link";
 import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
 
-async function fetchDrivers() {
-  const { data } = await GQLClient.query({
-    query: gql`
-      {
-        drivers {
-          id
-          firstName
-          lastName
-          team {
-            shortName
-          }
-        }
-      }
-    `
-  });
-  return data;
-}
-
-export async function getServerSideProps() {
-  const { drivers } = await fetchDrivers();
-  return { props: { drivers } };
-}
-
 export default function Drivers({ drivers }) {
   return (
     <>
-      <h1>Pilotes</h1>
+      <h1>Drivers</h1>
       <ul>
         {drivers.map(driver => (
           <li key={driver.id}>
@@ -38,11 +15,33 @@ export default function Drivers({ drivers }) {
                 query: { id: driver.id }
               }}
             >
-              {`${driver.firstName} ${driver.lastName} (${driver.team.shortName})`}
+              {`${driver.firstName} ${driver.lastName}`}
             </Link>
           </li>
         ))}
       </ul>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const { drivers } = await fetchDrivers();
+  return { props: { drivers } };
+}
+
+async function fetchDrivers() {
+  const FETCH_DRIVERS = gql`
+    query Drivers($limit: Int) {
+      drivers(limit: $limit) {
+        id
+        firstName
+        lastName
+      }
+    }
+  `;
+  const { data } = await GQLClient.query({
+    query: FETCH_DRIVERS,
+    variables: { limit: 100 }
+  });
+  return data;
 }

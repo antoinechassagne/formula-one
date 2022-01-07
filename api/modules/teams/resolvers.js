@@ -1,31 +1,30 @@
-const db = require("../../db");
+const { getTeam, getTeams } = require("./repository");
 
-function team(_, params) {
-  const { id } = params;
-  const team = db.teams.find(team => team.id === id);
-  return team;
+async function team(_, { id }) {
+  const { data } = await getTeam({ id });
+  return data || null;
 }
 
-function teams(_, { query, skip, limit }) {
-  const teams = query
-    ? db.teams.filter(team => {
-        return !Object.keys(query).some(key => team[key] !== query[key]);
-      })
-    : db.teams;
-  return teams.slice(skip, limit);
+async function teams(_, { query, skip, limit }) {
+  const { data } = await getTeams(query, skip, limit);
+  return data || [];
 }
 
-function createTeam(_, { data }) {
-  const id = (db.teams.length + 1).toString();
-  return { id, ...data };
+function currentDrivers(team) {
+  /**
+   * @todo: implement
+   */
+  return [];
 }
 
-function drivers(team) {
-  return db.drivers.filter(driver => driver.teamId === team.id);
+function previousDrivers(team) {
+  /**
+   * @todo: implement
+   */
+  return [];
 }
 
 module.exports = {
   Query: { team, teams },
-  Mutation: { createTeam },
-  Team: { drivers }
+  Team: { currentDrivers, previousDrivers }
 };

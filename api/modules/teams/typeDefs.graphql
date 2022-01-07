@@ -1,26 +1,18 @@
 type Query {
-  team(id: ID!): Team!
+  team(id: ID!): Team
   teams(query: TeamsInput, skip: Int, limit: Int): [Team]!
-}
-
-type Mutation {
-  createTeam(data: CreateTeamInput!): Team!
 }
 
 type Team {
   id: ID!
-  shortName: String!
-  fullName: String!
-  powerUnit: String!
-  drivers: [Driver]!
+  name: String!
+  nationality: String!
+  wikipediaUrl: String!
+  currentDrivers: [Driver]
+  previousDrivers: [Driver]
 }
 
 input TeamsInput {
-  powerUnit: String
-}
-
-input CreateTeamInput {
-  shortName: String!
-  fullName: String!
-  powerUnit: String!
+  name: String
+  nationality: String
 }
