@@ -27,9 +27,8 @@ module.exports = {
       database: process.env.DATABASE_NAME
     },
     pool: {
-      min: 1,
-      max: 10,
-      propagateCreateError: false
+      min: 0,
+      max: 10
     },
     migrations: {
       tableName: "migrations"
