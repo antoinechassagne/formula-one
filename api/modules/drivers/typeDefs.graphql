@@ -3,25 +3,23 @@ type Query {
   drivers(query: DriversInput, skip: Int, limit: Int): [Driver]!
 }
 
-type Mutation {
-  createDriver(data: CreateDriverInput!): Driver!
-}
-
 type Driver {
   id: ID!
+  number: Int
+  code: String
   firstName: String!
   lastName: String!
+  birthDate: String!
   nationality: String!
-  teamId: ID!
-  team: Team!
+  wikipediaUrl: String!
+  currentTeam: Team
+  previousTeams: [Team]
 }
 
 input DriversInput {
-  nationality: String
-}
-
-input CreateDriverInput {
-  firstName: String!
-  lastName: String!
-  nationality: String!
+  number: String
+  code: String
+  firstName: String
+  lastName: String
+  birthDate: String
 }
