@@ -24,7 +24,7 @@ export default function Teams({ teams }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const { teams } = await fetchTeams();
   return { props: { teams } };
 }
@@ -40,7 +40,7 @@ async function fetchTeams() {
   `;
   const { data } = await GQLClient.query({
     query: FETCH_TEAMS,
-    variables: { limit: 100 }
+    variables: { limit: 1000 }
   });
   return data;
 }

@@ -24,7 +24,7 @@ export default function Drivers({ drivers }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const { drivers } = await fetchDrivers();
   return { props: { drivers } };
 }
@@ -41,7 +41,7 @@ async function fetchDrivers() {
   `;
   const { data } = await GQLClient.query({
     query: FETCH_DRIVERS,
-    variables: { limit: 100 }
+    variables: { limit: 1000 }
   });
   return data;
 }

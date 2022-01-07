@@ -18,10 +18,33 @@ export default function Driver({ driver }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { id } = context.query;
+export async function getStaticPaths() {
+  const { drivers } = await fetchDrivers();
+  const paths = drivers.map(({ id }) => ({
+    params: { id }
+  }));
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const { id } = context.params;
   const { driver } = await fetchDriver(id);
   return { props: { driver } };
+}
+
+async function fetchDrivers() {
+  const FETCH_DRIVERS = gql`
+    query Drivers($limit: Int) {
+      drivers(limit: $limit) {
+        id
+      }
+    }
+  `;
+  const { data } = await GQLClient.query({
+    query: FETCH_DRIVERS,
+    variables: { limit: 1000 }
+  });
+  return data;
 }
 
 async function fetchDriver(id) {
