@@ -1,5 +1,5 @@
 type Query {
-  team(id: ID!): Team!
+  team(id: ID!): Team
   teams(query: TeamsInput, skip: Int, limit: Int): [Team]!
 }
 

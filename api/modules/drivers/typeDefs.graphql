@@ -1,5 +1,5 @@
 type Query {
-  driver(id: ID!): Driver!
+  driver(id: ID!): Driver
   drivers(query: DriversInput, skip: Int, limit: Int): [Driver]!
 }
 

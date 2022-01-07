@@ -14,4 +14,13 @@ function convert(data, mapping) {
   }, {});
 }
 
-module.exports = { convert, convertMany };
+function convertBack(data, mapping) {
+  if (!data) return null;
+  return mapping.reduce((result, { from, to, fn }) => {
+    if (!data[to]) return result;
+    result[from] = fn ? fn(data[to]) : data[to];
+    return result;
+  }, {});
+}
+
+module.exports = { convert, convertBack, convertMany };
