@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
 
@@ -14,6 +15,17 @@ export default function Driver({ driver }) {
       <a href={driver.wikipediaUrl} target={"_blank"}>
         Wikipedia page
       </a>
+      <div>
+        Current team :
+        <Link
+          href={{
+            pathname: "/teams/[id]",
+            query: { id: driver.currentTeam.id }
+          }}
+        >
+          {driver.currentTeam.name}
+        </Link>
+      </div>
     </>
   );
 }
@@ -59,6 +71,10 @@ async function fetchDriver(id) {
         birthDate
         nationality
         wikipediaUrl
+        currentTeam {
+          id
+          name
+        }
       }
     }
   `;
