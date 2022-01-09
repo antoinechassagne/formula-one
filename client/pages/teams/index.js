@@ -40,7 +40,7 @@ async function fetchTeams() {
   `;
   const { data } = await GQLClient.query({
     query: FETCH_TEAMS,
-    variables: { limit: 1000 }
+    variables: { limit: 100 }
   });
   return data;
 }

@@ -33,7 +33,26 @@ async function getTeams(query = {}, skip = 0, limit = 100) {
   }
 }
 
+async function getDriverCurrentTeam(driverId) {
+  try {
+    const rawTeam = await database("results")
+      .join("races", { "results.race_id": "races.race_id" })
+      .join("drivers", { "results.driver_id": "drivers.driver_id" })
+      .join("constructors", {
+        "results.constructor_id": "constructors.constructor_id"
+      })
+      .where({ "results.driver_id": driverId })
+      .orderBy("date", "desc")
+      .first();
+    const team = convert(rawTeam, mapping);
+    return { data: team };
+  } catch (error) {
+    return { error };
+  }
+}
+
 module.exports = {
   getTeam,
-  getTeams
+  getTeams,
+  getDriverCurrentTeam
 };

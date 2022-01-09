@@ -15,7 +15,7 @@ export default function Drivers({ drivers }) {
                 query: { id: driver.id }
               }}
             >
-              {`${driver.firstName} ${driver.lastName}`}
+              {`${driver.firstName} ${driver.lastName} (${driver.currentTeam.name})`}
             </Link>
           </li>
         ))}
@@ -36,12 +36,15 @@ async function fetchDrivers() {
         id
         firstName
         lastName
+        currentTeam {
+          name
+        }
       }
     }
   `;
   const { data } = await GQLClient.query({
     query: FETCH_DRIVERS,
-    variables: { limit: 1000 }
+    variables: { limit: 100 }
   });
   return data;
 }
