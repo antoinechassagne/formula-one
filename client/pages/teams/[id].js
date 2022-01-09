@@ -9,6 +9,26 @@ export default function Team({ team }) {
       <a href={team.wikipediaUrl} target={"_blank"}>
         Wikipedia page
       </a>
+      <div>
+        Current drivers :
+        <ul>
+          {team.currentDrivers.map(driver => (
+            <li key={driver.id}>{`${driver.firstName} ${driver.lastName}`}</li>
+          ))}
+        </ul>
+      </div>
+      {team.previousDrivers.length > 0 && (
+        <div>
+          Previous drivers :
+          <ul>
+            {team.previousDrivers.map(driver => (
+              <li
+                key={driver.id}
+              >{`${driver.firstName} ${driver.lastName}`}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 }
@@ -50,6 +70,16 @@ async function fetchTeam(id) {
         name
         nationality
         wikipediaUrl
+        currentDrivers {
+          id
+          firstName
+          lastName
+        }
+        previousDrivers {
+          id
+          firstName
+          lastName
+        }
       }
     }
   `;
