@@ -6,12 +6,12 @@ const {
 } = require("../../services/convertor");
 const mapping = require("./mapping");
 
-async function getDriver(query = {}) {
+async function getDriver(id) {
   try {
-    const data = await database("drivers")
-      .where(convertBack(query, mapping))
-      .first();
-    return { data: convert(data, mapping) };
+    const where = convertBack({ id }, mapping);
+    const rawDriver = await database("drivers").where(where).first();
+    const driver = convert(rawDriver, mapping);
+    return { data: driver };
   } catch (error) {
     return { error };
   }
@@ -19,13 +19,15 @@ async function getDriver(query = {}) {
 
 async function getDrivers(query = {}, skip = 0, limit = 100) {
   try {
-    const data = await database("drivers")
-      .where(convertBack(query, mapping))
+    const where = convertBack(query, mapping);
+    const rawDrivers = await database("drivers")
+      .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    return { data: convertMany(data, mapping) };
+    const drivers = convertMany(rawDrivers, mapping);
+    return { data: drivers };
   } catch (error) {
     return { error };
   }

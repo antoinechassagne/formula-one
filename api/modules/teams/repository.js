@@ -6,12 +6,12 @@ const {
 } = require("../../services/convertor");
 const mapping = require("./mapping");
 
-async function getTeam(query = {}) {
+async function getTeam(id) {
   try {
-    const data = await database("constructors")
-      .where(convertBack(query, mapping))
-      .first();
-    return { data: convert(data, mapping) };
+    const where = convertBack({ id }, mapping);
+    const rawTeam = await database("constructors").where(where).first();
+    const team = convert(rawTeam, mapping);
+    return { data: team };
   } catch (error) {
     return { error };
   }
@@ -19,13 +19,15 @@ async function getTeam(query = {}) {
 
 async function getTeams(query = {}, skip = 0, limit = 100) {
   try {
-    const data = await database("constructors")
-      .where(convertBack(query, mapping))
+    const where = convertBack(query, mapping);
+    const rawTeams = await database("constructors")
+      .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    return { data: convertMany(data, mapping) };
+    const teams = convertMany(rawTeams, mapping);
+    return { data: teams };
   } catch (error) {
     return { error };
   }

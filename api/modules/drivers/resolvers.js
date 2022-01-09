@@ -1,7 +1,7 @@
 const { getDriver, getDrivers } = require("./repository");
 
 async function driver(_, { id }) {
-  const { data } = await getDriver({ id });
+  const { data } = await getDriver(id);
   return data || null;
 }
 
