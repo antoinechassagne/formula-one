@@ -4,6 +4,7 @@ const {
   convertBack,
   convertMany
 } = require("../../services/convertor");
+const { uniqueBy } = require("../../services/Utils");
 const mapping = require("./mapping");
 
 async function getTeam(id) {
@@ -51,8 +52,29 @@ async function getDriverCurrentTeam(driverId) {
   }
 }
 
+async function getDriverPreviousTeams(driverId) {
+  try {
+    const rawTeams = await database("results")
+      .join("races", { "results.race_id": "races.race_id" })
+      .join("drivers", { "results.driver_id": "drivers.driver_id" })
+      .join("constructors", {
+        "results.constructor_id": "constructors.constructor_id"
+      })
+      .where({ "results.driver_id": driverId })
+      .orderBy("date", "desc");
+
+    const uniqueRawTeams = uniqueBy(rawTeams, "constructor_id");
+    const previousRawTeams = uniqueRawTeams.slice(1); // Remove the current team
+    const teams = convertMany(previousRawTeams, mapping);
+    return { data: teams };
+  } catch (error) {
+    return { error };
+  }
+}
+
 module.exports = {
   getTeam,
   getTeams,
-  getDriverCurrentTeam
+  getDriverCurrentTeam,
+  getDriverPreviousTeams
 };

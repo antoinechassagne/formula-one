@@ -26,6 +26,25 @@ export default function Driver({ driver }) {
           {driver.currentTeam.name}
         </Link>
       </div>
+      {driver.previousTeams.length > 0 && (
+        <div>
+          Previous teams :
+          <ul>
+            {driver.previousTeams.map(team => (
+              <li key={team.id}>
+                <Link
+                  href={{
+                    pathname: "/teams/[id]",
+                    query: { id: team.id }
+                  }}
+                >
+                  {team.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 }
@@ -72,6 +91,10 @@ async function fetchDriver(id) {
         nationality
         wikipediaUrl
         currentTeam {
+          id
+          name
+        }
+        previousTeams {
           id
           name
         }

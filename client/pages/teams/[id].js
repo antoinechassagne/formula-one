@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
 
@@ -13,7 +14,16 @@ export default function Team({ team }) {
         Current drivers :
         <ul>
           {team.currentDrivers.map(driver => (
-            <li key={driver.id}>{`${driver.firstName} ${driver.lastName}`}</li>
+            <li key={driver.id}>
+              <Link
+                href={{
+                  pathname: "/drivers/[id]",
+                  query: { id: driver.id }
+                }}
+              >
+                {`${driver.firstName} ${driver.lastName}`}
+              </Link>
+            </li>
           ))}
         </ul>
       </div>
@@ -22,9 +32,16 @@ export default function Team({ team }) {
           Previous drivers :
           <ul>
             {team.previousDrivers.map(driver => (
-              <li
-                key={driver.id}
-              >{`${driver.firstName} ${driver.lastName}`}</li>
+              <li key={driver.id}>
+                <Link
+                  href={{
+                    pathname: "/drivers/[id]",
+                    query: { id: driver.id }
+                  }}
+                >
+                  {`${driver.firstName} ${driver.lastName}`}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>
