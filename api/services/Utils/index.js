@@ -1,5 +1,12 @@
-function uniqueBy(array, property) {
-  return [...new Map(array.map(item => [item[property], item])).values()];
-}
+const fs = require("fs");
+const path = require("path");
 
-module.exports = { uniqueBy };
+const files = fs.readdirSync(path.resolve(__dirname, "functions"));
+
+const functions = files.reduce((functions, file) => {
+  const [name] = file.split(".");
+  functions[name] = require(`./functions/${file}`);
+  return functions;
+}, {});
+
+module.exports = functions;
