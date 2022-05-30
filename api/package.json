@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config -e js,graphql index.js",
     "start": "node index.js",
-    "drop-db": "node -r dotenv/config database/scripts/drop.js"
+    "drop-db": "node -r dotenv/config database/scripts/drop.js",
+    "create-db": "node -r dotenv/config database/scripts/create.js"
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.5.2",
