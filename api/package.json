@@ -5,12 +5,14 @@
     "dev": "nodemon -r dotenv/config -e js,graphql index.js",
     "start": "node index.js",
     "drop-db": "node -r dotenv/config database/scripts/drop.js",
-    "create-db": "node -r dotenv/config database/scripts/create.js"
+    "create-db": "node -r dotenv/config database/scripts/create.js",
+    "populate-db": "node -r dotenv/config database/scripts/populate/index.js"
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.5.2",
     "@graphql-tools/merge": "^8.2.1",
     "@graphql-tools/schema": "^8.3.1",
+    "csvtojson": "^2.0.10",
     "dotenv": "^10.0.0",
     "fastify": "^3.24.1",
     "knex": "^0.95.14",

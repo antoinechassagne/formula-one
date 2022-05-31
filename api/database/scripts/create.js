@@ -148,7 +148,7 @@ async function createConstructorResultsTable() {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("constructor_id").references("id").inTable("constructors");
-      table.integer("points");
+      table.float("points");
       table.string("status");
     });
     console.info("✅ Table constructor_results created.");
@@ -167,7 +167,7 @@ async function createConstructorStandingsTable() {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("constructor_id").references("id").inTable("constructors");
-      table.integer("points");
+      table.float("points");
       table.integer("position");
       table.string("position_text");
       table.integer("wins");
@@ -188,7 +188,7 @@ async function createDriverStandingsTable() {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
-      table.integer("points");
+      table.float("points");
       table.integer("position");
       table.string("position_text");
       table.integer("wins");
@@ -205,6 +205,7 @@ async function createLapTimesTable() {
   try {
     await database.schema.createTable("lap_times", table => {
       table.increments("id").primary();
+      table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
       table.integer("lap");
       table.integer("position");
@@ -223,6 +224,7 @@ async function createPitStopsTable() {
   try {
     await database.schema.createTable("pit_stops", table => {
       table.increments("id").primary();
+      table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
       table.integer("stop");
       table.integer("lap");
@@ -271,14 +273,14 @@ async function createResultsTable() {
       table.integer("position");
       table.string("position_text");
       table.integer("position_order");
-      table.integer("points");
+      table.float("points");
       table.integer("laps");
       table.string("time");
       table.integer("milliseconds");
-      table.integer("fatest_lap");
+      table.integer("fastest_lap");
       table.integer("rank");
-      table.string("fatest_lap_time");
-      table.float("fatest_lap_speed");
+      table.string("fastest_lap_time");
+      table.float("fastest_lap_speed");
       table.integer("status_id").references("id").inTable("status");
     });
     console.info("✅ Table results created.");
@@ -301,12 +303,12 @@ async function createSprintResultsTable() {
       table.integer("position");
       table.string("position_text");
       table.integer("position_order");
-      table.integer("points");
+      table.float("points");
       table.integer("laps");
       table.string("time");
       table.integer("milliseconds");
-      table.integer("fatest_lap");
-      table.string("fatest_lap_time");
+      table.integer("fastest_lap");
+      table.string("fastest_lap_time");
       table.integer("status_id").references("id").inTable("status");
     });
     console.info("✅ Table sprint_results created.");
