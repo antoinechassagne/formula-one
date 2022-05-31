@@ -1,17 +1,17 @@
 const database = require("../../database");
 const {
+  mapping,
   convert,
   convertBack,
   convertMany
 } = require("../../services/convertor");
 const { uniqueBy } = require("../../services/Utils");
-const mapping = require("./mapping");
 
 async function getTeam(id) {
   try {
-    const where = convertBack({ id }, mapping);
+    const where = convertBack({ id }, mapping.teams);
     const rawTeam = await database("constructors").where(where).first();
-    const team = convert(rawTeam, mapping);
+    const team = convert(rawTeam, mapping.teams);
     return { data: team };
   } catch (error) {
     return { error };
@@ -20,14 +20,14 @@ async function getTeam(id) {
 
 async function getTeams(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping);
+    const where = convertBack(query, mapping.teams);
     const rawTeams = await database("constructors")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const teams = convertMany(rawTeams, mapping);
+    const teams = convertMany(rawTeams, mapping.teams);
     return { data: teams };
   } catch (error) {
     return { error };
@@ -45,7 +45,7 @@ async function getDriverCurrentTeam(driverId) {
       .where({ "results.driver_id": driverId })
       .orderBy("date", "desc")
       .first();
-    const team = convert(rawTeam, mapping);
+    const team = convert(rawTeam, mapping.teams);
     return { data: team };
   } catch (error) {
     return { error };
@@ -65,7 +65,7 @@ async function getDriverPreviousTeams(driverId) {
 
     const uniqueRawTeams = uniqueBy(rawTeams, "constructor_id");
     const previousRawTeams = uniqueRawTeams.slice(1); // Remove the current team
-    const teams = convertMany(previousRawTeams, mapping);
+    const teams = convertMany(previousRawTeams, mapping.teams);
     return { data: teams };
   } catch (error) {
     return { error };
