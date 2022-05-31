@@ -15,7 +15,10 @@ export default function Drivers({ drivers }) {
                 query: { id: driver.id }
               }}
             >
-              {`${driver.firstName} ${driver.lastName} (${driver.currentTeam.name})`}
+              <>
+                {`${driver.firstName} ${driver.lastName}`}
+                {driver.currentTeam ? ` (${driver.currentTeam.name})` : null}
+              </>
             </Link>
           </li>
         ))}

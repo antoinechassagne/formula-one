@@ -7,26 +7,28 @@ export default function Team({ team }) {
     <>
       <h1>{team.name}</h1>
       <div>Nationality : {team.nationality}</div>
-      <a href={team.wikipediaUrl} target={"_blank"}>
+      <a href={team.url} target={"_blank"}>
         Wikipedia page
       </a>
-      <div>
-        Current drivers :
-        <ul>
-          {team.currentDrivers.map(driver => (
-            <li key={driver.id}>
-              <Link
-                href={{
-                  pathname: "/drivers/[id]",
-                  query: { id: driver.id }
-                }}
-              >
-                {`${driver.firstName} ${driver.lastName}`}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {team.currentDrivers.length > 0 && (
+        <div>
+          Current drivers :
+          <ul>
+            {team.currentDrivers.map(driver => (
+              <li key={driver.id}>
+                <Link
+                  href={{
+                    pathname: "/drivers/[id]",
+                    query: { id: driver.id }
+                  }}
+                >
+                  {`${driver.firstName} ${driver.lastName}`}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {team.previousDrivers.length > 0 && (
         <div>
           Previous drivers :
@@ -86,7 +88,7 @@ async function fetchTeam(id) {
         id
         name
         nationality
-        wikipediaUrl
+        url
         currentDrivers {
           id
           firstName

@@ -39,8 +39,8 @@ async function getDrivers(query = {}, skip = 0, limit = 100) {
 async function getTeamCurrentDrivers(teamId) {
   try {
     const rawDrivers = await database("results")
-      .join("races", { "results.race_id": "races.race_id" })
-      .join("drivers", { "results.driver_id": "drivers.driver_id" })
+      .join("races", { "results.race_id": "races.id" })
+      .join("drivers", { "results.driver_id": "drivers.id" })
       .where({ "results.constructor_id": teamId })
       .orderBy("date", "desc");
 
@@ -60,8 +60,8 @@ async function getTeamCurrentDrivers(teamId) {
 async function getTeamPreviousDrivers(teamId) {
   try {
     const rawDrivers = await database("results")
-      .join("races", { "results.race_id": "races.race_id" })
-      .join("drivers", { "results.driver_id": "drivers.driver_id" })
+      .join("races", { "results.race_id": "races.id" })
+      .join("drivers", { "results.driver_id": "drivers.id" })
       .where({ "results.constructor_id": teamId })
       .orderBy("date", "desc");
 
