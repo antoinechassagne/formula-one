@@ -10,22 +10,24 @@ export default function Driver({ driver }) {
       </h1>
       {driver.number ? <div>Number : {driver.number}</div> : null}
       {driver.code ? <div>Code : {driver.code}</div> : null}
-      <div>Birth date : {driver.birthDate}</div>
+      <div>Birth date : {driver.birthdate}</div>
       <div>Nationality : {driver.nationality}</div>
-      <a href={driver.wikipediaUrl} target={"_blank"}>
+      <a href={driver.url} target={"_blank"}>
         Wikipedia page
       </a>
-      <div>
-        Current team :
-        <Link
-          href={{
-            pathname: "/teams/[id]",
-            query: { id: driver.currentTeam.id }
-          }}
-        >
-          {driver.currentTeam.name}
-        </Link>
-      </div>
+      {driver.currentTeam && (
+        <div>
+          Current team :
+          <Link
+            href={{
+              pathname: "/teams/[id]",
+              query: { id: driver.currentTeam.id }
+            }}
+          >
+            {driver.currentTeam.name}
+          </Link>
+        </div>
+      )}
       {driver.previousTeams.length > 0 && (
         <div>
           Previous teams :
@@ -87,9 +89,9 @@ async function fetchDriver(id) {
         code
         firstName
         lastName
-        birthDate
+        birthdate
         nationality
-        wikipediaUrl
+        url
         currentTeam {
           id
           name

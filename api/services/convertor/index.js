@@ -1,4 +1,4 @@
-const NULL_VALUE = "N";
+const mapping = require("./mapping");
 
 function convertMany(data, mapping) {
   if (!data) return [];
@@ -6,21 +6,30 @@ function convertMany(data, mapping) {
 }
 
 function convert(data, mapping) {
-  if (!data) return null;
-  return mapping.reduce((result, { from, to, fn }) => {
-    if (!data[from] || data[from] === NULL_VALUE) return result;
-    result[to] = fn ? fn(data[from]) : data[from];
-    return result;
+  if (!mapping) return data;
+  return Object.keys(data).reduce((mappedData, key) => {
+    if (mapping[key]) {
+      mappedData[mapping[key]] = data[key];
+    } else {
+      mappedData[key] = data[key];
+    }
+    return mappedData;
   }, {});
 }
 
 function convertBack(data, mapping) {
-  if (!data) return null;
-  return mapping.reduce((result, { from, to, fn }) => {
-    if (!data[to]) return result;
-    result[from] = fn ? fn(data[to]) : data[to];
-    return result;
+  if (!mapping) return data;
+  return Object.keys(data).reduce((mappedData, key) => {
+    const targetKey = Object.keys(mapping).find(mappingkey => {
+      return mapping[mappingkey] === key;
+    });
+    if (targetKey) {
+      mappedData[targetKey] = data[key];
+    } else {
+      mappedData[key] = data[key];
+    }
+    return mappedData;
   }, {});
 }
 
-module.exports = { convert, convertBack, convertMany };
+module.exports = { mapping, convert, convertBack, convertMany };

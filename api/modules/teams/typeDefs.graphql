@@ -7,7 +7,7 @@ type Team {
   id: ID!
   name: String!
   nationality: String!
-  wikipediaUrl: String!
+  url: String!
   currentDrivers: [Driver]
   previousDrivers: [Driver]
 }
