@@ -24,5 +24,5 @@ async function team(teamStanding) {
 
 module.exports = {
   Query: { teamStanding, teamStandings },
-  TeamResult: { race, team }
+  TeamStanding: { race, team }
 };
