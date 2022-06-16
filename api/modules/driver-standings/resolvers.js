@@ -18,7 +18,7 @@ async function race(driverStanding) {
 }
 
 async function driver(driverStanding) {
-  const { data } = await getTeam(driverStanding.driverId);
+  const { data } = await getDriver(driverStanding.driverId);
   return data || null;
 }
 
