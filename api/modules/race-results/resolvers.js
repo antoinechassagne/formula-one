@@ -30,7 +30,7 @@ async function team(raceResult) {
 }
 
 async function status(raceResult) {
-  const { data } = await getTeam(raceResult.statusId);
+  const { data } = await getStatus(raceResult.statusId);
   return data || null;
 }
 
