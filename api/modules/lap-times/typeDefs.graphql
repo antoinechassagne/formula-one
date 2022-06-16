@@ -1,0 +1,19 @@
+type Query {
+  lapTime(id: ID!): LapTime
+  lapTimes(query: LapTimesInput, skip: Int, limit: Int): [LapTime]!
+}
+
+type LapTime {
+  id: ID!
+  race: Race!
+  driver: Driver!
+  lap: Int!
+  position: Int!
+  time: String
+  milliseconds: Int
+}
+
+input LapTimesInput {
+  raceId: ID
+  driverId: ID
+}
