@@ -1,0 +1,26 @@
+type Query {
+  qualifyingSession(id: ID!): QualifyingSession
+  qualifyingSessions(
+    query: QualifyingSessionsInput
+    skip: Int
+    limit: Int
+  ): [QualifyingSession]!
+}
+
+type QualifyingSession {
+  id: ID!
+  race: Race!
+  driver: Driver!
+  team: Team!
+  number: Int!
+  position: Int!
+  q1: String
+  q2: String
+  q3: String
+}
+
+input QualifyingSessionsInput {
+  raceId: ID
+  driverId: ID
+  teamId: ID
+}
