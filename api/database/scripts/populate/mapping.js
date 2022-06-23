@@ -1,84 +1,316 @@
-module.exports = {
-  circuits: {
-    circuitId: "id",
-    circuitRef: "ref",
-    lat: "latitude",
-    lng: "longitude",
-    alt: "altitude"
+module.exports = [
+  {
+    from: "circuits",
+    to: "circuits",
+    columns: [
+      {
+        from: "circuitId",
+        to: "id"
+      },
+      {
+        from: "circuitRef",
+        to: "ref"
+      },
+      {
+        from: "lat",
+        to: "latitude"
+      },
+      {
+        from: "lng",
+        to: "longitude"
+      },
+      {
+        from: "alt",
+        to: "altitude"
+      }
+    ]
   },
-  constructors: {
-    constructorId: "id",
-    constructorRef: "ref"
+  {
+    from: "constructors",
+    to: "teams",
+    columns: [
+      {
+        from: "constructorId",
+        to: "id"
+      },
+      {
+        from: "constructorRef",
+        to: "ref"
+      }
+    ]
   },
-  drivers: {
-    driverId: "id",
-    driverRef: "ref",
-    forename: "first_name",
-    surname: "last_name",
-    dob: "birthdate"
+  {
+    from: "drivers",
+    to: "drivers",
+    columns: [
+      {
+        from: "driverId",
+        to: "id"
+      },
+      {
+        from: "driverRef",
+        to: "ref"
+      },
+      {
+        from: "forename",
+        to: "first_name"
+      },
+      {
+        from: "surname",
+        to: "last_name"
+      },
+      {
+        from: "dob",
+        to: "birthdate"
+      }
+    ]
   },
-  seasons: {},
-  status: {
-    statusId: "id"
+  {
+    from: "seasons",
+    to: "seasons",
+    columns: []
   },
-  races: {
-    raceId: "id",
-    circuitId: "circuit_id",
-    quali_date: "qualifiying_date",
-    quali_time: "qualifiying_time"
+  {
+    from: "status",
+    to: "statuses",
+    columns: [
+      {
+        from: "status",
+        to: "id"
+      },
+      {
+        from: "status",
+        to: "label"
+      }
+    ]
   },
-  constructor_results: {
-    constructorResultsId: "id",
-    raceId: "race_id",
-    constructorId: "constructor_id"
+  {
+    from: "races",
+    to: "races",
+    columns: [
+      {
+        from: "raceId",
+        to: "id"
+      },
+      {
+        from: "circuitId",
+        to: "circuit_id"
+      },
+      {
+        from: "quali_date",
+        to: "qualifiying_date"
+      },
+      {
+        from: "quali_time",
+        to: "qualifiying_time"
+      }
+    ]
   },
-  constructor_standings: {
-    constructorStandingsId: "id",
-    raceId: "race_id",
-    constructorId: "constructor_id",
-    positionText: "position_text"
+  {
+    from: "constructor_results",
+    to: "team_results",
+    columns: [
+      {
+        from: "constructorResultsId",
+        to: "id"
+      },
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "constructorId",
+        to: "team_id"
+      },
+      {
+        from: "status",
+        to: "disqualified",
+        with(value) {
+          return value === "D";
+        }
+      }
+    ]
   },
-  driver_standings: {
-    driverStandingsId: "id",
-    raceId: "race_id",
-    driverId: "driver_id",
-    positionText: "position_text"
+  {
+    from: "constructor_standings",
+    to: "team_standings",
+    columns: [
+      {
+        from: "constructorStandingsId",
+        to: "id"
+      },
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "constructorId",
+        to: "team_id"
+      },
+      {
+        from: "positionText",
+        to: "position_text"
+      }
+    ]
   },
-  lap_times: {
-    raceId: "race_id",
-    driverId: "driver_id"
+  {
+    from: "driver_standings",
+    to: "driver_standings",
+    columns: [
+      {
+        from: "driverStandingsId",
+        to: "id"
+      },
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "driverId",
+        to: "driver_id"
+      },
+      {
+        from: "positionText",
+        to: "position_text"
+      }
+    ]
   },
-  pit_stops: {
-    raceId: "race_id",
-    driverId: "driver_id"
+  {
+    from: "lap_times",
+    to: "lap_times",
+    columns: [
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "driverId",
+        to: "driver_id"
+      }
+    ]
   },
-  qualifying: {
-    qualifyId: "id",
-    raceId: "race_id",
-    driverId: "driver_id",
-    constructorId: "constructor_id"
+  {
+    from: "pit_stops",
+    to: "pit_stops",
+    columns: [
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "driverId",
+        to: "driver_id"
+      }
+    ]
   },
-  results: {
-    resultId: "id",
-    raceId: "race_id",
-    driverId: "driver_id",
-    constructorId: "constructor_id",
-    positionText: "position_text",
-    positionOrder: "position_order",
-    fastestLap: "fastest_lap",
-    fastestLapTime: "fastest_lap_time",
-    fastestLapSpeed: "fastest_lap_speed",
-    statusId: "status_id"
+  {
+    from: "qualifying",
+    to: "qualifying_results",
+    columns: [
+      {
+        from: "qualifyId",
+        to: "id"
+      },
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "driverId",
+        to: "driver_id"
+      },
+      {
+        from: "constructorId",
+        to: "team_id"
+      }
+    ]
   },
-  sprint_results: {
-    resultId: "id",
-    raceId: "race_id",
-    driverId: "driver_id",
-    constructorId: "constructor_id",
-    positionText: "position_text",
-    positionOrder: "position_order",
-    fastestLap: "fastest_lap",
-    fastestLapTime: "fastest_lap_time",
-    statusId: "status_id"
+  {
+    from: "results",
+    to: "race_results",
+    columns: [
+      {
+        from: "resultId",
+        to: "id"
+      },
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "driverId",
+        to: "driver_id"
+      },
+      {
+        from: "constructorId",
+        to: "team_id"
+      },
+      {
+        from: "positionText",
+        to: "position_text"
+      },
+      {
+        from: "positionOrder",
+        to: "position_order"
+      },
+      {
+        from: "fastestLap",
+        to: "fastest_lap"
+      },
+      {
+        from: "fastestLapTime",
+        to: "fastest_lap_time"
+      },
+      {
+        from: "fastestLapSpeed",
+        to: "fastest_lap_speed"
+      },
+      {
+        from: "statusId",
+        to: "status_id"
+      }
+    ]
+  },
+  {
+    from: "sprint_results",
+    to: "sprint_results",
+    columns: [
+      {
+        from: "resultId",
+        to: "id"
+      },
+      {
+        from: "raceId",
+        to: "race_id"
+      },
+      {
+        from: "driverId",
+        to: "driver_id"
+      },
+      {
+        from: "constructorId",
+        to: "team_id"
+      },
+      {
+        from: "positionText",
+        to: "position_text"
+      },
+      {
+        from: "positionOrder",
+        to: "position_order"
+      },
+      {
+        from: "fastestLap",
+        to: "fastest_lap"
+      },
+      {
+        from: "fastestLapTime",
+        to: "fastest_lap_time"
+      },
+      {
+        from: "statusId",
+        to: "status_id"
+      }
+    ]
   }
-};
+];

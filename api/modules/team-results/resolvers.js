@@ -1,7 +1,6 @@
 const { getTeamResult, getTeamResults } = require("./repository");
 const { getRace } = require("../races/repository");
 const { getTeam } = require("../teams/repository");
-const { getStatus } = require("../statuses/repository");
 
 async function teamResult(_, { id }) {
   const { data } = await getTeamResult(id);
@@ -23,12 +22,7 @@ async function team(teamResult) {
   return data || null;
 }
 
-async function status(teamResult) {
-  const { data } = await getStatus(teamResult.statusId);
-  return data || null;
-}
-
 module.exports = {
   Query: { teamResult, teamResults },
-  TeamResult: { race, team, status }
+  TeamResult: { race, team }
 };

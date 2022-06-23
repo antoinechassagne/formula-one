@@ -1,16 +1,15 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 
 async function getRaceResult(id) {
   try {
-    const where = convertBack({ id }, mapping.raceResults);
-    const rawRaceResult = await database("results").where(where).first();
-    const raceResult = convert(rawRaceResult, mapping.raceResults);
+    const where = serialize({ id });
+    const rawRaceResult = await database("race_results").where(where).first();
+    const raceResult = deserialize(rawRaceResult);
     return { data: raceResult };
   } catch (error) {
     return { error };
@@ -19,14 +18,14 @@ async function getRaceResult(id) {
 
 async function getRaceResults(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.raceResults);
-    const rawRaceResults = await database("results")
+    const where = serialize(query);
+    const rawRaceResults = await database("race_results")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const raceResults = convertMany(rawRaceResults, mapping.raceResults);
+    const raceResults = deserializeMany(rawRaceResults);
     return { data: raceResults };
   } catch (error) {
     return { error };

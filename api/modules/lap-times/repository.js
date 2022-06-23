@@ -1,16 +1,15 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 
 async function getLapTime(id) {
   try {
-    const where = convertBack({ id }, mapping.lapTimes);
+    const where = serialize({ id });
     const rawLapTime = await database("lap_times").where(where).first();
-    const lapTime = convert(rawLapTime, mapping.lapTimes);
+    const lapTime = deserialize(rawLapTime);
     return { data: lapTime };
   } catch (error) {
     return { error };
@@ -19,14 +18,14 @@ async function getLapTime(id) {
 
 async function getLapTimes(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.lapTimes);
+    const where = serialize(query);
     const rawLapTimes = await database("lap_times")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const lapTimes = convertMany(rawLapTimes, mapping.lapTimes);
+    const lapTimes = deserializeMany(rawLapTimes);
     return { data: lapTimes };
   } catch (error) {
     return { error };

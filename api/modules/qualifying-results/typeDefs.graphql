@@ -1,13 +1,13 @@
 type Query {
-  qualifyingSession(id: ID!): QualifyingSession
-  qualifyingSessions(
-    query: QualifyingSessionsInput
+  qualifyingResult(id: ID!): QualifyingResult
+  qualifyingResults(
+    query: QualifyingResultsInput
     skip: Int
     limit: Int
-  ): [QualifyingSession]!
+  ): [QualifyingResult]!
 }
 
-type QualifyingSession {
+type QualifyingResult {
   id: ID!
   race: Race!
   driver: Driver!
@@ -19,7 +19,7 @@ type QualifyingSession {
   q3: String
 }
 
-input QualifyingSessionsInput {
+input QualifyingResultsInput {
   raceId: ID
   driverId: ID
   teamId: ID

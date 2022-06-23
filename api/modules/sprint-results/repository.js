@@ -1,18 +1,17 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 
 async function getSprintResult(id) {
   try {
-    const where = convertBack({ id }, mapping.sprintResults);
+    const where = serialize({ id });
     const rawSprintResult = await database("sprint_results")
       .where(where)
       .first();
-    const sprintResult = convert(rawSprintResult, mapping.sprintResults);
+    const sprintResult = deserialize(rawSprintResult);
     return { data: sprintResult };
   } catch (error) {
     return { error };
@@ -21,14 +20,14 @@ async function getSprintResult(id) {
 
 async function getSprintResults(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.sprintResults);
+    const where = serialize(query);
     const rawSprintResults = await database("sprint_results")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const sprintResults = convertMany(rawSprintResults, mapping.sprintResults);
+    const sprintResults = deserializeMany(rawSprintResults);
     return { data: sprintResults };
   } catch (error) {
     return { error };

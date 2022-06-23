@@ -1,18 +1,15 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 
 async function getTeamResult(id) {
   try {
-    const where = convertBack({ id }, mapping.teamResults);
-    const rawTeamResult = await database("constructor_results")
-      .where(where)
-      .first();
-    const teamResult = convert(rawTeamResult, mapping.teamResults);
+    const where = serialize({ id });
+    const rawTeamResult = await database("team_results").where(where).first();
+    const teamResult = deserialize(rawTeamResult);
     return { data: teamResult };
   } catch (error) {
     return { error };
@@ -21,14 +18,14 @@ async function getTeamResult(id) {
 
 async function getTeamResults(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.teamResults);
-    const rawTeamResults = await database("constructor_results")
+    const where = serialize(query);
+    const rawTeamResults = await database("team_results")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const teamResults = convertMany(rawTeamResults, mapping.teamResults);
+    const teamResults = deserializeMany(rawTeamResults);
     return { data: teamResults };
   } catch (error) {
     return { error };

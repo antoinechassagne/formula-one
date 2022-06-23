@@ -1,19 +1,18 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 const { uniqueBy } = require("../../services/Utils");
 
 const NUMBER_OF_DRIVERS_PER_TEAM = 2;
 
 async function getDriver(id) {
   try {
-    const where = convertBack({ id }, mapping.drivers);
+    const where = serialize({ id });
     const rawDriver = await database("drivers").where(where).first();
-    const driver = convert(rawDriver, mapping.drivers);
+    const driver = deserialize(rawDriver);
     return { data: driver };
   } catch (error) {
     return { error };
@@ -22,14 +21,14 @@ async function getDriver(id) {
 
 async function getDrivers(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.drivers);
+    const where = serialize(query);
     const rawDrivers = await database("drivers")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const drivers = convertMany(rawDrivers, mapping.drivers);
+    const drivers = deserializeMany(rawDrivers);
     return { data: drivers };
   } catch (error) {
     return { error };
@@ -38,10 +37,10 @@ async function getDrivers(query = {}, skip = 0, limit = 100) {
 
 async function getTeamCurrentDrivers(teamId) {
   try {
-    const rawDrivers = await database("results")
-      .join("races", { "results.race_id": "races.id" })
-      .join("drivers", { "results.driver_id": "drivers.id" })
-      .where({ "results.constructor_id": teamId })
+    const rawDrivers = await database("race_results")
+      .join("races", { "race_results.race_id": "races.id" })
+      .join("drivers", { "race_results.driver_id": "drivers.id" })
+      .where({ "race_results.team_id": teamId })
       .orderBy("date", "desc");
 
     const uniqueRawDrivers = uniqueBy(rawDrivers, "driver_id");
@@ -50,7 +49,7 @@ async function getTeamCurrentDrivers(teamId) {
       NUMBER_OF_DRIVERS_PER_TEAM
     );
 
-    const drivers = convertMany(currentRawDrivers, mapping.drivers);
+    const drivers = deserializeMany(currentRawDrivers);
     return { data: drivers };
   } catch (error) {
     return { error };
@@ -59,10 +58,10 @@ async function getTeamCurrentDrivers(teamId) {
 
 async function getTeamPreviousDrivers(teamId) {
   try {
-    const rawDrivers = await database("results")
-      .join("races", { "results.race_id": "races.id" })
-      .join("drivers", { "results.driver_id": "drivers.id" })
-      .where({ "results.constructor_id": teamId })
+    const rawDrivers = await database("race_results")
+      .join("races", { "race_results.race_id": "races.id" })
+      .join("drivers", { "race_results.driver_id": "drivers.id" })
+      .where({ "race_results.team_id": teamId })
       .orderBy("date", "desc");
 
     const uniqueRawDrivers = uniqueBy(rawDrivers, "driver_id");
@@ -70,7 +69,7 @@ async function getTeamPreviousDrivers(teamId) {
       NUMBER_OF_DRIVERS_PER_TEAM
     );
 
-    const drivers = convertMany(currentRawDrivers, mapping.drivers);
+    const drivers = deserializeMany(currentRawDrivers);
     return { data: drivers };
   } catch (error) {
     return { error };

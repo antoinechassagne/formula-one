@@ -1,16 +1,15 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 
 async function getCircuit(id) {
   try {
-    const where = convertBack({ id }, mapping.circuits);
+    const where = serialize({ id });
     const rawCircuit = await database("circuits").where(where).first();
-    const circuit = convert(rawCircuit, mapping.circuits);
+    const circuit = deserialize(rawCircuit);
     return { data: circuit };
   } catch (error) {
     return { error };
@@ -19,14 +18,14 @@ async function getCircuit(id) {
 
 async function getCircuits(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.circuits);
+    const where = serialize(query);
     const rawCircuits = await database("circuits")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const circuits = convertMany(rawCircuits, mapping.circuits);
+    const circuits = deserializeMany(rawCircuits);
     return { data: circuits };
   } catch (error) {
     return { error };

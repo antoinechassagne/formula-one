@@ -5,17 +5,17 @@ const database = require("../index");
     for (const tableName of [
       "sprint_results",
       "results",
-      "qualifying",
+      "qualifying_results",
       "pit_stops",
       "lap_times",
       "driver_standings",
-      "constructor_standings",
-      "constructor_results",
+      "team_standings",
+      "team_results",
       "races",
-      "status",
+      "statuses",
       "seasons",
       "drivers",
-      "constructors",
+      "teams",
       "circuits"
     ]) {
       await dropTable(tableName);

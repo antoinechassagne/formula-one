@@ -8,11 +8,11 @@ type TeamResult {
   race: Race!
   team: Team!
   points: Int!
-  status: Status!
+  disqualified: Boolean!
 }
 
 input TeamResultsInput {
   raceId: ID
   teamId: ID
-  statusId: ID
+  disqualified: Boolean
 }

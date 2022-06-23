@@ -3,18 +3,18 @@ const database = require("../index");
 (async function () {
   try {
     await createCircuitsTable();
-    await createConstructorsTable();
+    await createTeamsTable();
     await createDriversTable();
     await createSeasonsTable();
-    await createStatusTable();
+    await createStatusesTable();
     await createRacesTable();
-    await createConstructorResultsTable();
-    await createConstructorStandingsTable();
+    await createTeamResultsTable();
+    await createTeamStandingsTable();
     await createDriverStandingsTable();
     await createLapTimesTable();
     await createPitStopsTable();
-    await createQualifyingTable();
-    await createResultsTable();
+    await createQualifyingResultsTable();
+    await createRaceResultsTable();
     await createSprintResultsTable();
   } catch (error) {
     console.error(error);
@@ -44,19 +44,19 @@ async function createCircuitsTable() {
   }
 }
 
-async function createConstructorsTable() {
-  console.info(`⌛ Creating table constructors...`);
+async function createTeamsTable() {
+  console.info(`⌛ Creating table teams...`);
   try {
-    await database.schema.createTable("constructors", table => {
+    await database.schema.createTable("teams", table => {
       table.increments("id").primary();
       table.string("ref");
       table.string("name");
       table.string("nationality");
       table.string("url");
     });
-    console.info("✅ Table constructors created.");
+    console.info("✅ Table teams created.");
   } catch (error) {
-    console.info(`❌ An error occured while creating table constructors.`);
+    console.info(`❌ An error occured while creating table teams.`);
     throw error;
   }
 }
@@ -97,16 +97,16 @@ async function createSeasonsTable() {
   }
 }
 
-async function createStatusTable() {
-  console.info(`⌛ Creating table status...`);
+async function createStatusesTable() {
+  console.info(`⌛ Creating table statuses...`);
   try {
-    await database.schema.createTable("status", table => {
+    await database.schema.createTable("statuses", table => {
       table.increments("id").primary();
-      table.string("status");
+      table.string("label");
     });
-    console.info("✅ Table status created.");
+    console.info("✅ Table statuses created.");
   } catch (error) {
-    console.info(`❌ An error occured while creating table status.`);
+    console.info(`❌ An error occured while creating table statuses.`);
     throw error;
   }
 }
@@ -141,42 +141,38 @@ async function createRacesTable() {
   }
 }
 
-async function createConstructorResultsTable() {
-  console.info(`⌛ Creating table constructor_results...`);
+async function createTeamResultsTable() {
+  console.info(`⌛ Creating table team_results...`);
   try {
-    await database.schema.createTable("constructor_results", table => {
+    await database.schema.createTable("team_results", table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
-      table.integer("constructor_id").references("id").inTable("constructors");
+      table.integer("team_id").references("id").inTable("teams");
       table.float("points");
-      table.string("status");
+      table.boolean("disqualified");
     });
-    console.info("✅ Table constructor_results created.");
+    console.info("✅ Table team_results created.");
   } catch (error) {
-    console.info(
-      `❌ An error occured while creating table constructor_results.`
-    );
+    console.info(`❌ An error occured while creating table team_results.`);
     throw error;
   }
 }
 
-async function createConstructorStandingsTable() {
-  console.info(`⌛ Creating table constructor_standings...`);
+async function createTeamStandingsTable() {
+  console.info(`⌛ Creating table team_standings...`);
   try {
-    await database.schema.createTable("constructor_standings", table => {
+    await database.schema.createTable("team_standings", table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
-      table.integer("constructor_id").references("id").inTable("constructors");
+      table.integer("team_id").references("id").inTable("teams");
       table.float("points");
       table.integer("position");
       table.string("position_text");
       table.integer("wins");
     });
-    console.info("✅ Table constructor_standings created.");
+    console.info("✅ Table team_standings created.");
   } catch (error) {
-    console.info(
-      `❌ An error occured while creating table constructor_standings.`
-    );
+    console.info(`❌ An error occured while creating table team_standings.`);
     throw error;
   }
 }
@@ -239,35 +235,37 @@ async function createPitStopsTable() {
   }
 }
 
-async function createQualifyingTable() {
-  console.info(`⌛ Creating table qualifying...`);
+async function createQualifyingResultsTable() {
+  console.info(`⌛ Creating table qualifying_results...`);
   try {
-    await database.schema.createTable("qualifying", table => {
+    await database.schema.createTable("qualifying_results", table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
-      table.integer("constructor_id").references("id").inTable("constructors");
+      table.integer("team_id").references("id").inTable("teams");
       table.integer("number");
       table.integer("position");
       table.string("q1");
       table.string("q2");
       table.string("q3");
     });
-    console.info("✅ Table qualifying created.");
+    console.info("✅ Table qualifying_results created.");
   } catch (error) {
-    console.info(`❌ An error occured while creating table qualifying.`);
+    console.info(
+      `❌ An error occured while creating table qualifying_results.`
+    );
     throw error;
   }
 }
 
-async function createResultsTable() {
-  console.info(`⌛ Creating table results...`);
+async function createRaceResultsTable() {
+  console.info(`⌛ Creating table race_results...`);
   try {
-    await database.schema.createTable("results", table => {
+    await database.schema.createTable("race_results", table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
-      table.integer("constructor_id").references("id").inTable("constructors");
+      table.integer("team_id").references("id").inTable("teams");
       table.integer("number");
       table.integer("grid");
       table.integer("position");
@@ -281,11 +279,11 @@ async function createResultsTable() {
       table.integer("rank");
       table.string("fastest_lap_time");
       table.float("fastest_lap_speed");
-      table.integer("status_id").references("id").inTable("status");
+      table.integer("status_id").references("id").inTable("statuses");
     });
-    console.info("✅ Table results created.");
+    console.info("✅ Table race_results created.");
   } catch (error) {
-    console.info(`❌ An error occured while creating table results.`);
+    console.info(`❌ An error occured while creating table race_results.`);
     throw error;
   }
 }
@@ -297,7 +295,7 @@ async function createSprintResultsTable() {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
-      table.integer("constructor_id").references("id").inTable("constructors");
+      table.integer("team_id").references("id").inTable("teams");
       table.integer("number");
       table.integer("grid");
       table.integer("position");
@@ -309,7 +307,7 @@ async function createSprintResultsTable() {
       table.integer("milliseconds");
       table.integer("fastest_lap");
       table.string("fastest_lap_time");
-      table.integer("status_id").references("id").inTable("status");
+      table.integer("status_id").references("id").inTable("statuses");
     });
     console.info("✅ Table sprint_results created.");
   } catch (error) {
