@@ -1,16 +1,15 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 
 async function getSeason(id) {
   try {
-    const where = convertBack({ id }, mapping.seasons);
+    const where = serialize({ id });
     const rawSeason = await database("seasons").where(where).first();
-    const season = convert(rawSeason, mapping.seasons);
+    const season = deserialize(rawSeason);
     return { data: season };
   } catch (error) {
     return { error };
@@ -25,7 +24,7 @@ async function getSeasons(skip = 0, limit = 100) {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const seasons = convertMany(rawSeasons, mapping.seasons);
+    const seasons = deserializeMany(rawSeasons);
     return { data: seasons };
   } catch (error) {
     return { error };

@@ -1,17 +1,16 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 const { uniqueBy } = require("../../services/Utils");
 
 async function getTeam(id) {
   try {
-    const where = convertBack({ id }, mapping.teams);
-    const rawTeam = await database("constructors").where(where).first();
-    const team = convert(rawTeam, mapping.teams);
+    const where = serialize({ id });
+    const rawTeam = await database("teams").where(where).first();
+    const team = deserialize(rawTeam);
     return { data: team };
   } catch (error) {
     return { error };
@@ -20,14 +19,14 @@ async function getTeam(id) {
 
 async function getTeams(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.teams);
-    const rawTeams = await database("constructors")
+    const where = serialize(query);
+    const rawTeams = await database("teams")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const teams = convertMany(rawTeams, mapping.teams);
+    const teams = deserializeMany(rawTeams);
     return { data: teams };
   } catch (error) {
     return { error };
@@ -36,16 +35,16 @@ async function getTeams(query = {}, skip = 0, limit = 100) {
 
 async function getDriverCurrentTeam(driverId) {
   try {
-    const rawTeam = await database("results")
-      .join("races", { "results.race_id": "races.id" })
-      .join("drivers", { "results.driver_id": "drivers.id" })
-      .join("constructors", {
-        "results.constructor_id": "constructors.id"
+    const rawTeam = await database("race_results")
+      .join("races", { "race_results.race_id": "races.id" })
+      .join("drivers", { "race_results.driver_id": "drivers.id" })
+      .join("teams", {
+        "race_results.team_id": "teams.id"
       })
-      .where({ "results.driver_id": driverId })
+      .where({ "race_results.driver_id": driverId })
       .orderBy("date", "desc")
       .first();
-    const team = convert(rawTeam, mapping.teams);
+    const team = deserialize(rawTeam);
     return { data: team };
   } catch (error) {
     return { error };
@@ -54,18 +53,18 @@ async function getDriverCurrentTeam(driverId) {
 
 async function getDriverPreviousTeams(driverId) {
   try {
-    const rawTeams = await database("results")
-      .join("races", { "results.race_id": "races.id" })
-      .join("drivers", { "results.driver_id": "drivers.id" })
-      .join("constructors", {
-        "results.constructor_id": "constructors.id"
+    const rawTeams = await database("race_results")
+      .join("races", { "race_results.race_id": "races.id" })
+      .join("drivers", { "race_results.driver_id": "drivers.id" })
+      .join("teams", {
+        "race_results.team_id": "teams.id"
       })
-      .where({ "results.driver_id": driverId })
+      .where({ "race_results.driver_id": driverId })
       .orderBy("date", "desc");
 
-    const uniqueRawTeams = uniqueBy(rawTeams, "constructor_id");
+    const uniqueRawTeams = uniqueBy(rawTeams, "team_id");
     const previousRawTeams = uniqueRawTeams.slice(1); // Remove the current team
-    const teams = convertMany(previousRawTeams, mapping.teams);
+    const teams = deserializeMany(previousRawTeams);
     return { data: teams };
   } catch (error) {
     return { error };

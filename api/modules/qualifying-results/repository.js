@@ -5,36 +5,36 @@ const {
   deserializeMany
 } = require("../../services/Serialization");
 
-async function getDriverStanding(id) {
+async function getQualifyingResult(id) {
   try {
     const where = serialize({ id });
-    const rawDriverStanding = await database("driver_standings")
+    const rawQualifyingResult = await database("qualifying_results")
       .where(where)
       .first();
-    const driverStanding = deserialize(rawDriverStanding);
-    return { data: driverStanding };
+    const qualifyResult = deserialize(rawQualifyingResult);
+    return { data: qualifyResult };
   } catch (error) {
     return { error };
   }
 }
 
-async function getDriverStandings(query = {}, skip = 0, limit = 100) {
+async function getQualifyingResults(query = {}, skip = 0, limit = 100) {
   try {
     const where = serialize(query);
-    const rawDriverStandings = await database("driver_standings")
+    const rawQualifyingResults = await database("qualifying_results")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const driverStandings = deserializeMany(rawDriverStandings);
-    return { data: driverStandings };
+    const qualifyResults = deserializeMany(rawQualifyingResults);
+    return { data: qualifyResults };
   } catch (error) {
     return { error };
   }
 }
 
 module.exports = {
-  getDriverStanding,
-  getDriverStandings
+  getQualifyingResult,
+  getQualifyingResults
 };

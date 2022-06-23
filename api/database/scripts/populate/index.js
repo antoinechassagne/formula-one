@@ -1,23 +1,29 @@
+const path = require("path");
 const database = require("../../index");
-const { extract, formatRow } = require("./helpers");
+const Extraction = require("./services/Extraction");
 const mapping = require("./mapping");
+
+const extraction = new Extraction(
+  path.resolve(__dirname, "../../data"),
+  mapping
+);
 
 (async function () {
   try {
     for (const tableName of [
       "circuits",
-      "constructors",
+      "teams",
       "drivers",
       "seasons",
-      "status",
+      "statuses",
       "races",
-      "constructor_results",
-      "constructor_standings",
+      "team_results",
+      "team_standings",
       "driver_standings",
       "lap_times",
       "pit_stops",
-      "qualifying",
-      "results",
+      "qualifying_results",
+      "race_results",
       "sprint_results"
     ]) {
       await populateTable(tableName);
@@ -32,8 +38,7 @@ const mapping = require("./mapping");
 async function populateTable(tableName) {
   console.info(`⌛ Populating table ${tableName}...`);
   try {
-    const data = await extract(tableName);
-    const rows = data.map(row => formatRow(row, mapping[tableName]));
+    const rows = await extraction.getRows(tableName);
     await database.batchInsert(tableName, rows, 3000);
     console.info(`✅ Table ${tableName} populated.`);
   } catch (error) {

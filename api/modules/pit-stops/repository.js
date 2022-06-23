@@ -1,16 +1,15 @@
 const database = require("../../database");
 const {
-  mapping,
-  convert,
-  convertBack,
-  convertMany
-} = require("../../services/convertor");
+  serialize,
+  deserialize,
+  deserializeMany
+} = require("../../services/Serialization");
 
 async function getPitStop(id) {
   try {
-    const where = convertBack({ id }, mapping.pitStops);
+    const where = serialize({ id });
     const rawPitStop = await database("pit_stops").where(where).first();
-    const pitStop = convert(rawPitStop, mapping.pitStops);
+    const pitStop = deserialize(rawPitStop);
     return { data: pitStop };
   } catch (error) {
     return { error };
@@ -19,14 +18,14 @@ async function getPitStop(id) {
 
 async function getPitStops(query = {}, skip = 0, limit = 100) {
   try {
-    const where = convertBack(query, mapping.pitStops);
+    const where = serialize(query);
     const rawPitStops = await database("pit_stops")
       .where(where)
       .modify(queryBuilder => {
         if (skip) queryBuilder.offset(skip);
         if (limit) queryBuilder.limit(limit);
       });
-    const pitStops = convertMany(rawPitStops, mapping.pitStops);
+    const pitStops = deserializeMany(rawPitStops);
     return { data: pitStops };
   } catch (error) {
     return { error };
