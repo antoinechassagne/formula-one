@@ -11,10 +11,15 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module"
   },
-  plugins: ["react", "prettier"],
+  plugins: ["react"],
   rules: {
     "trailing-comma": "off",
     "no-use-before-define": "off",
+    "no-param-reassign": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
+    "func-names": "off",
+    "no-shadow": ["error", { ignoreOnInitialization: true }],
     "react/prop-types": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx"] }]
