@@ -1,9 +1,5 @@
 const database = require("../../database");
-const {
-  serialize,
-  deserialize,
-  deserializeMany
-} = require("../../services/Serialization");
+const { serialize, deserialize, deserializeMany } = require("../../services/Serialization");
 
 async function getSeason(id) {
   try {

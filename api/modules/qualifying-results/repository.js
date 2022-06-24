@@ -1,16 +1,10 @@
 const database = require("../../database");
-const {
-  serialize,
-  deserialize,
-  deserializeMany
-} = require("../../services/Serialization");
+const { serialize, deserialize, deserializeMany } = require("../../services/Serialization");
 
 async function getQualifyingResult(id) {
   try {
     const where = serialize({ id });
-    const rawQualifyingResult = await database("qualifying_results")
-      .where(where)
-      .first();
+    const rawQualifyingResult = await database("qualifying_results").where(where).first();
     const qualifyResult = deserialize(rawQualifyingResult);
     return { data: qualifyResult };
   } catch (error) {

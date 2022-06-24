@@ -13,18 +13,18 @@ async function qualifyingResults(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function race(qualifyingResult) {
-  const { data } = await getRace(qualifyingResult.raceId);
+async function race(qualifyingResultPayload) {
+  const { data } = await getRace(qualifyingResultPayload.raceId);
   return data || null;
 }
 
-async function driver(qualifyingResult) {
-  const { data } = await getDriver(qualifyingResult.driverId);
+async function driver(qualifyingResultPayload) {
+  const { data } = await getDriver(qualifyingResultPayload.driverId);
   return data || null;
 }
 
-async function team(qualifyingResult) {
-  const { data } = await getTeam(qualifyingResult.teamId);
+async function team(qualifyingResultPayload) {
+  const { data } = await getTeam(qualifyingResultPayload.teamId);
   return data || null;
 }
 

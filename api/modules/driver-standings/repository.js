@@ -1,16 +1,10 @@
 const database = require("../../database");
-const {
-  serialize,
-  deserialize,
-  deserializeMany
-} = require("../../services/Serialization");
+const { serialize, deserialize, deserializeMany } = require("../../services/Serialization");
 
 async function getDriverStanding(id) {
   try {
     const where = serialize({ id });
-    const rawDriverStanding = await database("driver_standings")
-      .where(where)
-      .first();
+    const rawDriverStanding = await database("driver_standings").where(where).first();
     const driverStanding = deserialize(rawDriverStanding);
     return { data: driverStanding };
   } catch (error) {

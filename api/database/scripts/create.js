@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const database = require("../index");
 
 (async function () {
@@ -267,9 +268,7 @@ async function createQualifyingResultsTable() {
     });
     console.info("✅ Table qualifying_results created.");
   } catch (error) {
-    console.info(
-      `❌ An error occured while creating table qualifying_results.`
-    );
+    console.info(`❌ An error occured while creating table qualifying_results.`);
     throw error;
   }
 }

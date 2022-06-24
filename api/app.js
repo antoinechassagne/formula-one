@@ -10,9 +10,7 @@ app.register(mercurius, {
 });
 
 app.get("/", (request, reply) => {
-  reply.send(
-    "Welcome on Formula One API. Let's hit /graphql endpoint to start or /graphiql to explore. Enjoy 🏎"
-  );
+  reply.send("Welcome on Formula One API. Let's hit /graphql endpoint to start or /graphiql to explore. Enjoy 🏎");
 });
 
 module.exports = app;

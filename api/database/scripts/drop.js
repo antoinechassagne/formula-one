@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const database = require("../index");
 
 (async function () {

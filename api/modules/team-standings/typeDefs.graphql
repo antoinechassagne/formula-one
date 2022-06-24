@@ -1,10 +1,6 @@
 type Query {
   teamStanding(id: ID!): TeamStanding
-  teamStandings(
-    query: TeamStandingsInput
-    skip: Int
-    limit: Int
-  ): [TeamStanding]!
+  teamStandings(query: TeamStandingsInput, skip: Int, limit: Int): [TeamStanding]!
 }
 
 type TeamStanding {

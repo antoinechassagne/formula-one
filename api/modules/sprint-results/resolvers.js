@@ -14,23 +14,23 @@ async function sprintResults(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function race(sprintResult) {
-  const { data } = await getRace(sprintResult.raceId);
+async function race(sprintResultPayload) {
+  const { data } = await getRace(sprintResultPayload.raceId);
   return data || null;
 }
 
-async function driver(sprintResult) {
-  const { data } = await getDriver(sprintResult.driverId);
+async function driver(sprintResultPayload) {
+  const { data } = await getDriver(sprintResultPayload.driverId);
   return data || null;
 }
 
-async function team(sprintResult) {
-  const { data } = await getTeam(sprintResult.teamId);
+async function team(sprintResultPayload) {
+  const { data } = await getTeam(sprintResultPayload.teamId);
   return data || null;
 }
 
-async function status(sprintResult) {
-  const { data } = await getStatus(sprintResult.statusId);
+async function status(sprintResultPayload) {
+  const { data } = await getStatus(sprintResultPayload.statusId);
   return data || null;
 }
 

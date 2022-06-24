@@ -1,16 +1,10 @@
 const database = require("../../database");
-const {
-  serialize,
-  deserialize,
-  deserializeMany
-} = require("../../services/Serialization");
+const { serialize, deserialize, deserializeMany } = require("../../services/Serialization");
 
 async function getSprintResult(id) {
   try {
     const where = serialize({ id });
-    const rawSprintResult = await database("sprint_results")
-      .where(where)
-      .first();
+    const rawSprintResult = await database("sprint_results").where(where).first();
     const sprintResult = deserialize(rawSprintResult);
     return { data: sprintResult };
   } catch (error) {

@@ -11,8 +11,8 @@ async function races(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function circuit(race) {
-  const { data } = await getCircuit(race.circuitId);
+async function circuit(racePayload) {
+  const { data } = await getCircuit(racePayload.circuitId);
   return data || null;
 }
 

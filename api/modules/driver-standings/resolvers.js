@@ -12,13 +12,13 @@ async function driverStandings(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function race(driverStanding) {
-  const { data } = await getRace(driverStanding.raceId);
+async function race(driverStandingPayload) {
+  const { data } = await getRace(driverStandingPayload.raceId);
   return data || null;
 }
 
-async function driver(driverStanding) {
-  const { data } = await getDriver(driverStanding.driverId);
+async function driver(driverStandingPayload) {
+  const { data } = await getDriver(driverStandingPayload.driverId);
   return data || null;
 }
 

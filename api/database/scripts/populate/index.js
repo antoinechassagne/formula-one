@@ -1,16 +1,11 @@
+/* eslint-disable no-console */
 const path = require("path");
 const database = require("../../index");
-const {
-  getRowsToInsert,
-  updateTablesTracking
-} = require("./services/TablesTracking");
+const { getRowsToInsert, updateTablesTracking } = require("./services/TablesTracking");
 const Extraction = require("./services/Extraction");
 const mapping = require("./mapping");
 
-const extraction = new Extraction(
-  path.resolve(__dirname, "../../data"),
-  mapping
-);
+const extraction = new Extraction(path.resolve(__dirname, "../../data"), mapping);
 
 (async function () {
   try {
@@ -44,13 +39,9 @@ async function populateTable(tableName) {
   try {
     const rows = await extraction.getRows(tableName);
     const rowsToInsert = await getRowsToInsert(tableName, rows);
-    const ids = await database
-      .batchInsert(tableName, rowsToInsert, 3000)
-      .returning("id");
+    const ids = await database.batchInsert(tableName, rowsToInsert, 3000).returning("id");
     await updateTablesTracking(tableName, ids);
-    console.info(
-      `✅ Table ${tableName} populated with ${rowsToInsert.length} rows.`
-    );
+    console.info(`✅ Table ${tableName} populated with ${rowsToInsert.length} rows.`);
   } catch (error) {
     console.info(`❌ An error occured while populating table ${tableName}.`);
     throw error;

@@ -14,23 +14,23 @@ async function raceResults(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function race(raceResult) {
-  const { data } = await getRace(raceResult.raceId);
+async function race(raceResultPayload) {
+  const { data } = await getRace(raceResultPayload.raceId);
   return data || null;
 }
 
-async function driver(raceResult) {
-  const { data } = await getDriver(raceResult.driverId);
+async function driver(raceResultPayload) {
+  const { data } = await getDriver(raceResultPayload.driverId);
   return data || null;
 }
 
-async function team(raceResult) {
-  const { data } = await getTeam(raceResult.teamId);
+async function team(raceResultPayload) {
+  const { data } = await getTeam(raceResultPayload.teamId);
   return data || null;
 }
 
-async function status(raceResult) {
-  const { data } = await getStatus(raceResult.statusId);
+async function status(raceResultPayload) {
+  const { data } = await getStatus(raceResultPayload.statusId);
   return data || null;
 }
 

@@ -5,12 +5,12 @@ async function getRowsToInsert(tableName, rows) {
     table_name: tableName
   });
   if (!tracking) return rows;
-  return rows.filter(row => parseInt(row.id) > tracking.last_id_inserted);
+  return rows.filter(row => parseInt(row.id, 10) > tracking.last_id_inserted);
 }
 
 function updateTablesTracking(tableName, ids) {
   if (!ids.length) return;
-  return database("tables_tracking")
+  database("tables_tracking")
     .insert({
       table_name: tableName,
       last_id_inserted: ids[ids.length - 1]

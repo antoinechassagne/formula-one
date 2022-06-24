@@ -1,8 +1,5 @@
 const { getDriver, getDrivers } = require("./repository");
-const {
-  getDriverCurrentTeam,
-  getDriverPreviousTeams
-} = require("../teams/repository");
+const { getDriverCurrentTeam, getDriverPreviousTeams } = require("../teams/repository");
 
 async function driver(_, { id }) {
   const { data } = await getDriver(id);
@@ -14,13 +11,13 @@ async function drivers(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function currentTeam(driver) {
-  const { data } = await getDriverCurrentTeam(driver.id);
+async function currentTeam(driverPayload) {
+  const { data } = await getDriverCurrentTeam(driverPayload.id);
   return data || null;
 }
 
-async function previousTeams(driver) {
-  const { data } = await getDriverPreviousTeams(driver.id);
+async function previousTeams(driverPayload) {
+  const { data } = await getDriverPreviousTeams(driverPayload.id);
   return data || [];
 }
 

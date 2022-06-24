@@ -1,16 +1,10 @@
 const database = require("../../database");
-const {
-  serialize,
-  deserialize,
-  deserializeMany
-} = require("../../services/Serialization");
+const { serialize, deserialize, deserializeMany } = require("../../services/Serialization");
 
 async function getTeamStanding(id) {
   try {
     const where = serialize({ id });
-    const rawTeamStanding = await database("team_standings")
-      .where(where)
-      .first();
+    const rawTeamStanding = await database("team_standings").where(where).first();
     const teamStanding = deserialize(rawTeamStanding);
     return { data: teamStanding };
   } catch (error) {

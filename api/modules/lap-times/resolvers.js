@@ -12,13 +12,13 @@ async function lapTimes(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function race(lapTime) {
-  const { data } = await getRace(lapTime.raceId);
+async function race(lapTimePayload) {
+  const { data } = await getRace(lapTimePayload.raceId);
   return data || null;
 }
 
-async function driver(lapTime) {
-  const { data } = await getDriver(lapTime.driverId);
+async function driver(lapTimePayload) {
+  const { data } = await getDriver(lapTimePayload.driverId);
   return data || null;
 }
 

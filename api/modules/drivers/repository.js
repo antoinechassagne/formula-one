@@ -1,9 +1,5 @@
 const database = require("../../database");
-const {
-  serialize,
-  deserialize,
-  deserializeMany
-} = require("../../services/Serialization");
+const { serialize, deserialize, deserializeMany } = require("../../services/Serialization");
 const { uniqueBy } = require("../../services/Utils");
 
 const NUMBER_OF_DRIVERS_PER_TEAM = 2;
@@ -42,13 +38,8 @@ async function getTeamCurrentDrivers(teamId) {
       .join("drivers", { "race_results.driver_id": "drivers.id" })
       .where({ "race_results.team_id": teamId })
       .orderBy("date", "desc");
-
     const uniqueRawDrivers = uniqueBy(rawDrivers, "driver_id");
-    const currentRawDrivers = uniqueRawDrivers.slice(
-      0,
-      NUMBER_OF_DRIVERS_PER_TEAM
-    );
-
+    const currentRawDrivers = uniqueRawDrivers.slice(0, NUMBER_OF_DRIVERS_PER_TEAM);
     const drivers = deserializeMany(currentRawDrivers);
     return { data: drivers };
   } catch (error) {
@@ -63,12 +54,8 @@ async function getTeamPreviousDrivers(teamId) {
       .join("drivers", { "race_results.driver_id": "drivers.id" })
       .where({ "race_results.team_id": teamId })
       .orderBy("date", "desc");
-
     const uniqueRawDrivers = uniqueBy(rawDrivers, "driver_id");
-    const currentRawDrivers = uniqueRawDrivers.slice(
-      NUMBER_OF_DRIVERS_PER_TEAM
-    );
-
+    const currentRawDrivers = uniqueRawDrivers.slice(NUMBER_OF_DRIVERS_PER_TEAM);
     const drivers = deserializeMany(currentRawDrivers);
     return { data: drivers };
   } catch (error) {
