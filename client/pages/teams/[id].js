@@ -2,7 +2,7 @@ import Link from "next/link";
 import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
 
-export default function Team({ team }) {
+export default function Team({ team, ok }) {
   return (
     <>
       <h1>{team.name}</h1>
