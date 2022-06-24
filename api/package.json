@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config -e js,graphql index.js",
     "start": "node index.js",
+    "lint": "npx eslint -c .eslintrc.js ./",
     "db:drop": "node -r dotenv/config database/scripts/drop.js",
     "db:create": "node -r dotenv/config database/scripts/create.js",
     "db:populate": "node -r dotenv/config database/scripts/populate/index.js"
