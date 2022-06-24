@@ -10,7 +10,7 @@ type RaceResult {
   team: Team!
   number: Int!
   grid: Int!
-  position: Int!
+  position: Int
   positionText: String!
   positionOrder: String!
   points: Int!
