@@ -1,4 +1,4 @@
-name: Continuous integration
+name: CI
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   lint:
-    name: Lint code
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Access repository
