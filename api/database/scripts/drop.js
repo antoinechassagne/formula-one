@@ -4,7 +4,7 @@ const database = require("../index");
   try {
     for (const tableName of [
       "sprint_results",
-      "results",
+      "race_results",
       "qualifying_results",
       "pit_stops",
       "lap_times",
@@ -16,7 +16,8 @@ const database = require("../index");
       "seasons",
       "drivers",
       "teams",
-      "circuits"
+      "circuits",
+      "tables_tracking"
     ]) {
       await dropTable(tableName);
     }

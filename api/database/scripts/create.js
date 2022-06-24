@@ -2,6 +2,7 @@ const database = require("../index");
 
 (async function () {
   try {
+    await createTablesTrackingTable();
     await createCircuitsTable();
     await createTeamsTable();
     await createDriversTable();
@@ -22,6 +23,21 @@ const database = require("../index");
     process.exit(0);
   }
 })();
+
+async function createTablesTrackingTable() {
+  console.info(`⌛ Creating table tables_tracking...`);
+  try {
+    await database.schema.createTable("tables_tracking", table => {
+      table.increments("id").primary();
+      table.string("table_name").unique();
+      table.integer("last_id_inserted");
+    });
+    console.info("✅ Table tables_tracking created.");
+  } catch (error) {
+    console.info(`❌ An error occured while creating table tables_tracking.`);
+    throw error;
+  }
+}
 
 async function createCircuitsTable() {
   console.info(`⌛ Creating table circuits...`);
