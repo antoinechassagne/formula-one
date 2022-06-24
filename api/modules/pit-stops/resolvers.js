@@ -12,13 +12,13 @@ async function pitStops(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function race(pitStop) {
-  const { data } = await getRace(pitStop.raceId);
+async function race(pitStopPayload) {
+  const { data } = await getRace(pitStopPayload.raceId);
   return data || null;
 }
 
-async function driver(pitStop) {
-  const { data } = await getDriver(pitStop.driverId);
+async function driver(pitStopPayload) {
+  const { data } = await getDriver(pitStopPayload.driverId);
   return data || null;
 }
 

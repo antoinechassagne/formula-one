@@ -12,13 +12,13 @@ async function teamStandings(_, { query, skip, limit }) {
   return data || [];
 }
 
-async function race(teamStanding) {
-  const { data } = await getRace(teamStanding.raceId);
+async function race(teamStandingPayload) {
+  const { data } = await getRace(teamStandingPayload.raceId);
   return data || null;
 }
 
-async function team(teamStanding) {
-  const { data } = await getTeam(teamStanding.teamId);
+async function team(teamStandingPayload) {
+  const { data } = await getTeam(teamStandingPayload.teamId);
   return data || null;
 }
 

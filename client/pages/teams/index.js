@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { gql } from "@apollo/client";
+import Link from "next/link";
 import GQLClient from "../../services/GQLClient";
 
 export default function Teams({ teams }) {

@@ -1,10 +1,6 @@
 type Query {
   sprintResult(id: ID!): SprintResult
-  sprintResults(
-    query: SprintResultsInput
-    skip: Int
-    limit: Int
-  ): [SprintResult]!
+  sprintResults(query: SprintResultsInput, skip: Int, limit: Int): [SprintResult]!
 }
 
 type SprintResult {

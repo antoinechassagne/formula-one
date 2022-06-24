@@ -12,7 +12,7 @@ export default function Driver({ driver }) {
       {driver.code ? <div>Code : {driver.code}</div> : null}
       <div>Birth date : {driver.birthdate}</div>
       <div>Nationality : {driver.nationality}</div>
-      <a href={driver.url} target={"_blank"}>
+      <a href={driver.url} target="_blank" rel="noreferrer">
         Wikipedia page
       </a>
       {driver.currentTeam && (
