@@ -1,13 +1,5 @@
 {
-  "printWidth": 80,
+  "printWidth": 120,
   "trailingComma": "none",
-  "arrowParens": "avoid",
-  "overrides": [
-    {
-      "files": ["*.json"],
-      "options": {
-        "printWidth": 120
-      }
-    }
-  ]
+  "arrowParens": "avoid"
 }

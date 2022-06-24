@@ -7,7 +7,7 @@ export default function Team({ team }) {
     <>
       <h1>{team.name}</h1>
       <div>Nationality : {team.nationality}</div>
-      <a href={team.url} target={"_blank"}>
+      <a href={team.url} target="_blank" rel="noreferrer">
         Wikipedia page
       </a>
       {team.currentDrivers.length > 0 && (
