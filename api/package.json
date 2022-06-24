@@ -5,6 +5,8 @@
     "dev": "nodemon -r dotenv/config -e js,graphql index.js",
     "start": "node index.js",
     "lint": "npx eslint -c .eslintrc.js ./",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "db:drop": "node -r dotenv/config database/scripts/drop.js",
     "db:create": "node -r dotenv/config database/scripts/create.js",
     "db:populate": "node -r dotenv/config database/scripts/populate/index.js"
@@ -27,7 +29,8 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "vitest": "^0.16.0"
   },
   "engines": {
     "node": "16.15.0"
