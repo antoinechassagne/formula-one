@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Access repository
+        uses: actions/checkout@v2
+
+      - name: Install api dependencies
+        working-directory: api
+        run: npm ci
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Lint api code
+        working-directory: api
+        run: npm run lint
+
+      - name: Lint client code
+        working-directory: client
+        run: npm run lint
+  unit-test:
+    name: Unit test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Access repository
+        uses: actions/checkout@v2
+
+      - name: Install api dependencies
+        working-directory: api
+        run: npm ci
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Run unit tests on api code
+        working-directory: api
+        run: npm run test
+
+      - name: Run unit tests on client code
+        working-directory: client
+        run: npm run test

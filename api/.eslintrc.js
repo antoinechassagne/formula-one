@@ -15,6 +15,7 @@ module.exports = {
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
     "func-names": "off",
-    "no-shadow": ["error", { ignoreOnInitialization: true }]
+    "no-shadow": ["error", { ignoreOnInitialization: true }],
+    "import/no-extraneous-dependencies": ["error", { devDependencies: true }]
   }
 };

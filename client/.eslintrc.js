@@ -20,6 +20,7 @@ module.exports = {
     "no-await-in-loop": "off",
     "func-names": "off",
     "no-shadow": ["error", { ignoreOnInitialization: true }],
+    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "react/prop-types": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx"] }]
