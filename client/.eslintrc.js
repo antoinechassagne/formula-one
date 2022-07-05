@@ -1,9 +1,11 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    jest: true
   },
   extends: ["airbnb", "plugin:react/recommended", "plugin:react/jsx-runtime", "plugin:prettier/recommended"],
+  plugins: ["react", "jest"],
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -11,7 +13,6 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module"
   },
-  plugins: ["react"],
   rules: {
     "trailing-comma": "off",
     "no-use-before-define": "off",

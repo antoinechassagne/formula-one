@@ -1,5 +1,3 @@
-import { describe, test, expect } from "vitest";
-
 const snakeToCamel = require("./snakeToCamel");
 
 describe("snakeToCamel function", () => {
