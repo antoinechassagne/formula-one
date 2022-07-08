@@ -1,3 +1,4 @@
+// @ts-nocheck
 const snakeToCamel = require("./snakeToCamel");
 
 describe("snakeToCamel function", () => {

@@ -15,8 +15,8 @@
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "types": ["jest", "node"],
     "outDir": "build"
   },
-  "include": ["next-env.d.ts", "./**.js", "./**.ts", "./**.tsx", "**/*.js", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "build", "**/*.test.ts", "coverage", ".eslintrc.js", "jest.config.js"]
+  "include": ["./**.js", "./**.ts", "./**.tsx", "**/*.js", "**/*.ts", "**/*.tsx"]
 }
