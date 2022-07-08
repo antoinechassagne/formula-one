@@ -3,21 +3,24 @@ module.exports = {
     node: true,
     commonjs: true,
     es2021: true,
-    "jest/globals": true
+    jest: true
   },
-  extends: ["airbnb-base", "plugin:prettier/recommended"],
-  plugins: ["jest"],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: "latest"
+    tsconfigRootDir: __dirname,
+    project: "./tsconfig.json",
+    sourceType: "commonjs"
   },
+  extends: ["airbnb-base", "airbnb-typescript/base", "plugin:prettier/recommended"],
+  plugins: ["@typescript-eslint", "jest"],
   rules: {
     "trailing-comma": "off",
-    "no-use-before-define": "off",
     "no-param-reassign": "off",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
     "func-names": "off",
     "no-shadow": ["error", { ignoreOnInitialization: true }],
-    "import/no-extraneous-dependencies": ["error", { devDependencies: true }]
+    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+    "@typescript-eslint/no-use-before-define": "off"
   }
 };

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["esnext"],
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "newLine": "lf",
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "useDefineForClassFields": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "outDir": "build"
+  },
+  "include": ["next-env.d.ts", "./**.js", "./**.ts", "./**.tsx", "**/*.js", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "build", "**/*.test.ts", "coverage", ".eslintrc.js", "jest.config.js"]
+}
