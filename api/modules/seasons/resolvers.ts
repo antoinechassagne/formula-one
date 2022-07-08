@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { Season, getSeasons } = require("./repository");
+const { getSeason, getSeasons } = require("./repository");
 
 async function season(_, { id }) {
   const { data } = await getSeason(id);

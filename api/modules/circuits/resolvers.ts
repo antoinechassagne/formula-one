@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { Circuit, getCircuits } = require("./repository");
+const { getCircuit, getCircuits } = require("./repository");
 
 async function circuit(_, { id }) {
   const { data } = await getCircuit(id);

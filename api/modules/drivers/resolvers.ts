@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { Driver, getDrivers } = require("./repository");
+const { getDriver, getDrivers } = require("./repository");
 const { getDriverCurrentTeam, getDriverPreviousTeams } = require("../teams/repository");
 
 async function driver(_, { id }) {

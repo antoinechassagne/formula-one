@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { Status, getStatuses } = require("./repository");
+const { getStatus, getStatuses } = require("./repository");
 
 async function status(_, { id }) {
   const { data } = await getStatus(id);

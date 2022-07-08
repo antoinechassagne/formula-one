@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { LapTime, getLapTimes } = require("./repository");
+const { getLapTime, getLapTimes } = require("./repository");
 const { getRace } = require("../races/repository");
 const { getDriver } = require("../drivers/repository");
 

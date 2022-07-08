@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { Race, getRaces } = require("./repository");
+const { getRace, getRaces } = require("./repository");
 const { getCircuit } = require("../circuits/repository");
 
 async function race(_, { id }) {

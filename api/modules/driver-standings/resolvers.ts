@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { DriverStanding, getDriverStandings } = require("./repository");
+const { getDriverStanding, getDriverStandings } = require("./repository");
 const { getRace } = require("../races/repository");
 const { getDriver } = require("../drivers/repository");
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { SprintResult, getSprintResults } = require("./repository");
+const { getSprintResult, getSprintResults } = require("./repository");
 const { getRace } = require("../races/repository");
 const { getDriver } = require("../drivers/repository");
 const { getTeam } = require("../teams/repository");

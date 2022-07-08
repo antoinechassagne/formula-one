@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { TeamStanding, getTeamStandings } = require("./repository");
+const { getTeamStanding, getTeamStandings } = require("./repository");
 const { getRace } = require("../races/repository");
 const { getTeam } = require("../teams/repository");
 
