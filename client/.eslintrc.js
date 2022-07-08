@@ -1,29 +1,29 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
     jest: true
   },
-  extends: ["airbnb", "plugin:react/recommended", "plugin:react/jsx-runtime", "plugin:prettier/recommended"],
-  plugins: ["react", "jest"],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
-    ecmaVersion: "latest",
+    tsconfigRootDir: __dirname,
+    project: "./tsconfig.json",
     sourceType: "module"
   },
+  extends: ["airbnb", "airbnb-typescript", "plugin:prettier/recommended"],
+  plugins: ["@typescript-eslint", "jest"],
   rules: {
     "trailing-comma": "off",
-    "no-use-before-define": "off",
     "no-param-reassign": "off",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
     "func-names": "off",
     "no-shadow": ["error", { ignoreOnInitialization: true }],
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+    "@typescript-eslint/no-use-before-define": "off",
+    "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "react/jsx-props-no-spreading": "off",
-    "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx"] }]
+    "react/jsx-props-no-spreading": "off"
   }
 };
