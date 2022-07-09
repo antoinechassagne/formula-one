@@ -7,7 +7,11 @@ const path = require("path");
 const files = fs.readdirSync(path.resolve(__dirname, "functions"));
 
 const functions = files.reduce((functions, file) => {
-  const [name] = file.split(".");
+  const [name, extension] = file.split(".");
+  /* Exclude test files */
+  if (extension === "test") {
+    return functions;
+  }
   functions[name] = require(`./functions/${file}`);
   return functions;
 }, {});
