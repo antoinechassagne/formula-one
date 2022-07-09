@@ -19,5 +19,5 @@
     "outDir": "build"
   },
   "include": ["./**.js", "./**.ts", "./**.tsx", "**/*.js", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "build", "coverage", "jest.config.js", ".eslintrc.js"]
+  "exclude": ["node_modules", "build", "coverage"]
 }

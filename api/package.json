@@ -5,7 +5,7 @@
   },
   "scripts": {
     "dev": "tsc-watch --onSuccess 'nodemon --exec npm run start:local'",
-    "build": "tsc --build",
+    "build": "tsc --project ./tsconfig.build.json",
     "start": "node build/index.js",
     "start:local": "node -r dotenv/config build/index.js dotenv_config_path=.env",
     "type-check": "tsc --noEmit",
