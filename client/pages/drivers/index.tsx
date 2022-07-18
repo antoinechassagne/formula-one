@@ -1,8 +1,12 @@
+import { InferGetStaticPropsType, GetStaticPropsResult } from "next";
+import { gql, ApolloQueryResult } from "@apollo/client";
 import Link from "next/link";
-import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
+import type { Driver } from "../../types";
 
-export default function Drivers({ drivers }) {
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+export default function DriversPage({ drivers }: Props) {
   return (
     <>
       <h1>Drivers</h1>
@@ -27,12 +31,12 @@ export default function Drivers({ drivers }) {
   );
 }
 
-export async function getStaticProps() {
-  const { drivers } = await fetchDrivers();
+export async function getStaticProps(): Promise<GetStaticPropsResult<{ drivers: Driver[] }>> {
+  const drivers = await fetchDrivers();
   return { props: { drivers } };
 }
 
-async function fetchDrivers() {
+async function fetchDrivers(): Promise<Driver[]> {
   const FETCH_DRIVERS = gql`
     query Drivers($limit: Int) {
       drivers(limit: $limit) {
@@ -45,9 +49,11 @@ async function fetchDrivers() {
       }
     }
   `;
-  const { data } = await GQLClient.query({
+  const {
+    data: { drivers }
+  }: ApolloQueryResult<{ drivers: Driver[] }> = await GQLClient.query({
     query: FETCH_DRIVERS,
     variables: { limit: 100 }
   });
-  return data;
+  return drivers;
 }

@@ -1,8 +1,17 @@
+import { InferGetStaticPropsType, GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from "next";
+import { ParsedUrlQuery } from "querystring";
+import { gql, ApolloQueryResult } from "@apollo/client";
 import Link from "next/link";
-import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
+import type { Driver } from "../../types";
 
-export default function Driver({ driver }) {
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+interface Params extends ParsedUrlQuery {
+  id: string;
+}
+
+export default function DriverPage({ driver }: Props) {
   return (
     <>
       <h1>
@@ -10,7 +19,7 @@ export default function Driver({ driver }) {
       </h1>
       {driver.number ? <div>Number : {driver.number}</div> : null}
       {driver.code ? <div>Code : {driver.code}</div> : null}
-      <div>Birth date : {driver.birthdate}</div>
+      <div>Birth date : {driver.birthDate}</div>
       <div>Nationality : {driver.nationality}</div>
       <a href={driver.url} target="_blank" rel="noreferrer">
         Wikipedia page
@@ -51,21 +60,23 @@ export default function Driver({ driver }) {
   );
 }
 
-export async function getStaticPaths() {
-  const { drivers } = await fetchDrivers();
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+  const drivers = await fetchDrivers();
   const paths = drivers.map(({ id }) => ({
     params: { id }
   }));
   return { paths, fallback: false };
 }
 
-export async function getStaticProps(context) {
-  const { id } = context.params;
-  const { driver } = await fetchDriver(id);
+export async function getStaticProps(
+  context: GetStaticPropsContext
+): Promise<GetStaticPropsResult<{ driver: Driver }>> {
+  const { id } = context?.params as Params;
+  const driver = await fetchDriver(id);
   return { props: { driver } };
 }
 
-async function fetchDrivers() {
+async function fetchDrivers(): Promise<Driver[]> {
   const FETCH_DRIVERS = gql`
     query Drivers($limit: Int) {
       drivers(limit: $limit) {
@@ -73,14 +84,16 @@ async function fetchDrivers() {
       }
     }
   `;
-  const { data } = await GQLClient.query({
+  const {
+    data: { drivers }
+  }: ApolloQueryResult<{ drivers: Driver[] }> = await GQLClient.query({
     query: FETCH_DRIVERS,
     variables: { limit: 1000 }
   });
-  return data;
+  return drivers;
 }
 
-async function fetchDriver(id) {
+async function fetchDriver(id: string): Promise<Driver> {
   const FETCH_DRIVER = gql`
     query Driver($id: ID!) {
       driver(id: $id) {
@@ -103,9 +116,11 @@ async function fetchDriver(id) {
       }
     }
   `;
-  const { data } = await GQLClient.query({
+  const {
+    data: { driver }
+  }: ApolloQueryResult<{ driver: Driver }> = await GQLClient.query({
     query: FETCH_DRIVER,
     variables: { id }
   });
-  return data;
+  return driver;
 }

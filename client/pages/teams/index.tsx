@@ -1,8 +1,12 @@
-import { gql } from "@apollo/client";
+import { InferGetStaticPropsType, GetStaticPropsResult } from "next";
+import { gql, ApolloQueryResult } from "@apollo/client";
 import Link from "next/link";
 import GQLClient from "../../services/GQLClient";
+import type { Team } from "../../types";
 
-export default function Teams({ teams }) {
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+export default function TeamsPage({ teams }: Props) {
   return (
     <>
       <h1>Teams</h1>
@@ -24,12 +28,12 @@ export default function Teams({ teams }) {
   );
 }
 
-export async function getStaticProps() {
-  const { teams } = await fetchTeams();
+export async function getStaticProps(): Promise<GetStaticPropsResult<{ teams: Team[] }>> {
+  const teams = await fetchTeams();
   return { props: { teams } };
 }
 
-async function fetchTeams() {
+async function fetchTeams(): Promise<Team[]> {
   const FETCH_TEAMS = gql`
     query Teams($limit: Int) {
       teams(limit: $limit) {
@@ -38,9 +42,11 @@ async function fetchTeams() {
       }
     }
   `;
-  const { data } = await GQLClient.query({
+  const {
+    data: { teams }
+  }: ApolloQueryResult<{ teams: Team[] }> = await GQLClient.query({
     query: FETCH_TEAMS,
     variables: { limit: 100 }
   });
-  return data;
+  return teams;
 }

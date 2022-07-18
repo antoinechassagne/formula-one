@@ -1,8 +1,16 @@
+import { InferGetStaticPropsType, GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from "next";
+import { ParsedUrlQuery } from "querystring";
+import { gql, ApolloQueryResult } from "@apollo/client";
 import Link from "next/link";
-import { gql } from "@apollo/client";
 import GQLClient from "../../services/GQLClient";
+import type { Team } from "../../types";
 
-export default function Team({ team }) {
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+interface Params extends ParsedUrlQuery {
+  id: string;
+}
+
+export default function TeamPage({ team }: Props) {
   return (
     <>
       <h1>{team.name}</h1>
@@ -52,21 +60,21 @@ export default function Team({ team }) {
   );
 }
 
-export async function getStaticPaths() {
-  const { teams } = await fetchTeams();
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+  const teams = await fetchTeams();
   const paths = teams.map(({ id }) => ({
     params: { id }
   }));
   return { paths, fallback: false };
 }
 
-export async function getStaticProps(context) {
-  const { id } = context.params;
-  const { team } = await fetchTeam(id);
+export async function getStaticProps(context: GetStaticPropsContext): Promise<GetStaticPropsResult<{ team: Team }>> {
+  const { id } = context?.params as Params;
+  const team = await fetchTeam(id);
   return { props: { team } };
 }
 
-async function fetchTeams() {
+async function fetchTeams(): Promise<Team[]> {
   const FETCH_TEAMS = gql`
     query Teams($limit: Int) {
       teams(limit: $limit) {
@@ -74,14 +82,16 @@ async function fetchTeams() {
       }
     }
   `;
-  const { data } = await GQLClient.query({
+  const {
+    data: { teams }
+  }: ApolloQueryResult<{ teams: Team[] }> = await GQLClient.query({
     query: FETCH_TEAMS,
     variables: { limit: 1000 }
   });
-  return data;
+  return teams;
 }
 
-async function fetchTeam(id) {
+async function fetchTeam(id: string): Promise<Team> {
   const FETCH_TEAM = gql`
     query Team($id: ID!) {
       team(id: $id) {
@@ -102,9 +112,11 @@ async function fetchTeam(id) {
       }
     }
   `;
-  const { data } = await GQLClient.query({
+  const {
+    data: { team }
+  }: ApolloQueryResult<{ team: Team }> = await GQLClient.query({
     query: FETCH_TEAM,
     variables: { id }
   });
-  return data;
+  return team;
 }
