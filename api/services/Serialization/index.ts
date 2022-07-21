@@ -1,20 +1,20 @@
 import { snakeToCamel, camelToSnake } from "../Utils";
 import { GenericObject } from "../../types";
 
-export function serialize(obj: GenericObject) {
+export function serialize<T>(obj: GenericObject) {
   return Object.keys(obj).reduce((mappedData, key) => {
-    mappedData[camelToSnake(key)] = obj[key];
+    mappedData[camelToSnake(key) as keyof T] = obj[key];
     return mappedData;
-  }, {} as GenericObject);
+  }, {} as T);
 }
 
-export function deserialize(obj: GenericObject) {
+export function deserialize<T>(obj: GenericObject) {
   return Object.keys(obj).reduce((mappedData, key) => {
-    mappedData[snakeToCamel(key)] = obj[key];
+    mappedData[snakeToCamel(key) as keyof T] = obj[key];
     return mappedData;
-  }, {} as GenericObject);
+  }, {} as T);
 }
 
-export function deserializeMany<T>(items: T[]) {
-  return items.map(item => deserialize(item));
+export function deserializeMany<T>(items: GenericObject[]) {
+  return items.map(item => deserialize<T>(item));
 }
