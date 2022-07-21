@@ -1,4 +1,3 @@
 module.exports = {
-  collectCoverage: true,
-  collectCoverageFrom: ["./modules/**/*.js", "./services/**/*.js"]
+  collectCoverageFrom: ["./modules/**/*.ts", "./services/**/*.ts"]
 };

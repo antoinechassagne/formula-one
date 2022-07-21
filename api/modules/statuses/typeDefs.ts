@@ -1,0 +1,11 @@
+module.exports = `
+  type Query {
+    status(id: ID!): Status
+    statuses(skip: Int, limit: Int): [Status]!
+  }
+
+  type Status {
+    id: ID!
+    label: String!
+  }
+`;

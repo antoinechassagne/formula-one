@@ -5,6 +5,28 @@ on:
     branches:
       - main
 jobs:
+  type-check:
+    name: Type check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Access repository
+        uses: actions/checkout@v2
+
+      - name: Install api dependencies
+        working-directory: api
+        run: npm ci
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Run type check on api code
+        working-directory: api
+        run: npm run type-check
+
+      - name: Run type check on client code
+        working-directory: client
+        run: npm run type-check
   lint:
     name: Lint
     runs-on: ubuntu-latest

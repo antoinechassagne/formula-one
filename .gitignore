@@ -1,5 +1,10 @@
-node_modules/
+node_modules
 .DS_Store
 .env
 coverage
+tsconfig.tsbuildinfo
+build
+.next
+.swc
+out
 api/database/data
