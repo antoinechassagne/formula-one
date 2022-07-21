@@ -1,11 +1,8 @@
-// @ts-nocheck
-const snakeToCamel = require("./snakeToCamel");
+import snakeToCamel from "./snakeToCamel";
 
 describe("snakeToCamel function", () => {
-  test("Should return the value unchanged if it's either falsy or not a string", () => {
-    expect(snakeToCamel(null)).toEqual(null);
-    expect(snakeToCamel(undefined)).toEqual(undefined);
-    expect(snakeToCamel([])).toEqual([]);
+  test("Should return the value unchanged if string is empty", () => {
+    expect(snakeToCamel("")).toEqual("");
   });
 
   test("Should transform from snake case to camel case", () => {

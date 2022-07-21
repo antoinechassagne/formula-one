@@ -1,8 +1,9 @@
-// @ts-nocheck
-const database = require("../../database");
+import database from "../../database";
+import { RepositoryResult, Circuit } from "../../types";
+
 const { serialize, deserialize, deserializeMany } = require("../../services/Serialization");
 
-async function getCircuit(id) {
+export async function getCircuit(id: string): Promise<RepositoryResult<Circuit>> {
   try {
     const where = serialize({ id });
     const rawCircuit = await database("circuits").where(where).first();
@@ -13,7 +14,7 @@ async function getCircuit(id) {
   }
 }
 
-async function getCircuits(query = {}, skip = 0, limit = 100) {
+export async function getCircuits(query = {}, skip = 0, limit = 100): Promise<RepositoryResult<Circuit[]>> {
   try {
     const where = serialize(query);
     const rawCircuits = await database("circuits")
@@ -28,8 +29,3 @@ async function getCircuits(query = {}, skip = 0, limit = 100) {
     return { error };
   }
 }
-
-module.exports = {
-  getCircuit,
-  getCircuits
-};

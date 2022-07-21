@@ -1,16 +1,16 @@
-// @ts-nocheck
-const { getCircuit, getCircuits } = require("./repository");
+import { getCircuit, getCircuits } from "./repository";
+import { SingleResolverQuery, ListResolverQuery } from "../../types";
 
-async function circuit(_, { id }) {
+async function circuit(_: any, { id }: SingleResolverQuery) {
   const { data } = await getCircuit(id);
   return data || null;
 }
 
-async function circuits(_, { query, skip, limit }) {
+async function circuits(_: any, { query, skip, limit }: ListResolverQuery) {
   const { data } = await getCircuits(query, skip, limit);
   return data || [];
 }
 
-module.exports = {
+export default {
   Query: { circuit, circuits }
 };

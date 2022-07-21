@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-// @ts-nocheck
-const database = require("../index");
+import database from "../index";
+import { TableNames } from "./types";
 
 (async function () {
   try {
@@ -27,24 +27,24 @@ const database = require("../index");
 })();
 
 async function createTablesTrackingTable() {
-  console.info(`⌛ Creating table tables_tracking...`);
+  console.info(`⌛ Creating table ${TableNames.tablesTracking}...`);
   try {
-    await database.schema.createTable("tables_tracking", table => {
+    await database.schema.createTable(TableNames.tablesTracking, table => {
       table.increments("id").primary();
       table.string("table_name").unique();
       table.integer("last_id_inserted");
     });
-    console.info("✅ Table tables_tracking created.");
+    console.info(`✅ Table ${TableNames.tablesTracking} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table tables_tracking.`);
+    console.info(`❌ An error occured while creating table ${TableNames.tablesTracking}.`);
     throw error;
   }
 }
 
 async function createCircuitsTable() {
-  console.info(`⌛ Creating table circuits...`);
+  console.info(`⌛ Creating table ${TableNames.circuits}...`);
   try {
-    await database.schema.createTable("circuits", table => {
+    await database.schema.createTable(TableNames.circuits, table => {
       table.increments("id").primary();
       table.string("ref");
       table.string("name");
@@ -55,34 +55,34 @@ async function createCircuitsTable() {
       table.integer("altitude");
       table.string("url");
     });
-    console.info("✅ Table circuits created.");
+    console.info(`✅ Table ${TableNames.circuits} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table circuits.`);
+    console.info(`❌ An error occured while creating table ${TableNames.circuits}.`);
     throw error;
   }
 }
 
 async function createTeamsTable() {
-  console.info(`⌛ Creating table teams...`);
+  console.info(`⌛ Creating table ${TableNames.teams}...`);
   try {
-    await database.schema.createTable("teams", table => {
+    await database.schema.createTable(TableNames.teams, table => {
       table.increments("id").primary();
       table.string("ref");
       table.string("name");
       table.string("nationality");
       table.string("url");
     });
-    console.info("✅ Table teams created.");
+    console.info(`✅ Table ${TableNames.teams} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table teams.`);
+    console.info(`❌ An error occured while creating table ${TableNames.teams}.`);
     throw error;
   }
 }
 
 async function createDriversTable() {
-  console.info(`⌛ Creating table drivers...`);
+  console.info(`⌛ Creating table ${TableNames.drivers}...`);
   try {
-    await database.schema.createTable("drivers", table => {
+    await database.schema.createTable(TableNames.drivers, table => {
       table.increments("id").primary();
       table.string("ref");
       table.integer("number");
@@ -93,46 +93,46 @@ async function createDriversTable() {
       table.string("nationality");
       table.string("url");
     });
-    console.info("✅ Table drivers created.");
+    console.info(`✅ Table ${TableNames.drivers} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table drivers.`);
+    console.info(`❌ An error occured while creating table ${TableNames.drivers}.`);
     throw error;
   }
 }
 
 async function createSeasonsTable() {
-  console.info(`⌛ Creating table seasons...`);
+  console.info(`⌛ Creating table ${TableNames.seasons}...`);
   try {
-    await database.schema.createTable("seasons", table => {
+    await database.schema.createTable(TableNames.seasons, table => {
       table.increments("id").primary();
       table.integer("year");
       table.string("url");
     });
-    console.info("✅ Table seasons created.");
+    console.info(`✅ Table ${TableNames.seasons} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table seasons.`);
+    console.info(`❌ An error occured while creating table ${TableNames.seasons}.`);
     throw error;
   }
 }
 
 async function createStatusesTable() {
-  console.info(`⌛ Creating table statuses...`);
+  console.info(`⌛ Creating table ${TableNames.statuses}...`);
   try {
-    await database.schema.createTable("statuses", table => {
+    await database.schema.createTable(TableNames.statuses, table => {
       table.increments("id").primary();
       table.string("label");
     });
-    console.info("✅ Table statuses created.");
+    console.info(`✅ Table ${TableNames.statuses} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table statuses.`);
+    console.info(`❌ An error occured while creating table ${TableNames.statuses}.`);
     throw error;
   }
 }
 
 async function createRacesTable() {
-  console.info(`⌛ Creating table races...`);
+  console.info(`⌛ Creating table ${TableNames.races}...`);
   try {
-    await database.schema.createTable("races", table => {
+    await database.schema.createTable(TableNames.races, table => {
       table.increments("id").primary();
       table.integer("year");
       table.integer("round");
@@ -152,34 +152,34 @@ async function createRacesTable() {
       table.string("sprint_date");
       table.string("sprint_time");
     });
-    console.info("✅ Table races created.");
+    console.info(`✅ Table ${TableNames.races} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table races.`);
+    console.info(`❌ An error occured while creating table ${TableNames.races}.`);
     throw error;
   }
 }
 
 async function createTeamResultsTable() {
-  console.info(`⌛ Creating table team_results...`);
+  console.info(`⌛ Creating table ${TableNames.teamResults}...`);
   try {
-    await database.schema.createTable("team_results", table => {
+    await database.schema.createTable(TableNames.teamResults, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("team_id").references("id").inTable("teams");
       table.float("points");
       table.boolean("disqualified");
     });
-    console.info("✅ Table team_results created.");
+    console.info(`✅ Table ${TableNames.teamResults} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table team_results.`);
+    console.info(`❌ An error occured while creating table ${TableNames.teamResults}.`);
     throw error;
   }
 }
 
 async function createTeamStandingsTable() {
-  console.info(`⌛ Creating table team_standings...`);
+  console.info(`⌛ Creating table ${TableNames.teamStandings}...`);
   try {
-    await database.schema.createTable("team_standings", table => {
+    await database.schema.createTable(TableNames.teamStandings, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("team_id").references("id").inTable("teams");
@@ -188,17 +188,17 @@ async function createTeamStandingsTable() {
       table.string("position_text");
       table.integer("wins");
     });
-    console.info("✅ Table team_standings created.");
+    console.info(`✅ Table ${TableNames.teamStandings} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table team_standings.`);
+    console.info(`❌ An error occured while creating table ${TableNames.teamStandings}.`);
     throw error;
   }
 }
 
 async function createDriverStandingsTable() {
-  console.info(`⌛ Creating table driver_standings...`);
+  console.info(`⌛ Creating table ${TableNames.driverStandings}...`);
   try {
-    await database.schema.createTable("driver_standings", table => {
+    await database.schema.createTable(TableNames.driverStandings, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
@@ -207,17 +207,17 @@ async function createDriverStandingsTable() {
       table.string("position_text");
       table.integer("wins");
     });
-    console.info("✅ Table driver_standings created.");
+    console.info(`✅ Table ${TableNames.driverStandings} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table driver_standings.`);
+    console.info(`❌ An error occured while creating table ${TableNames.driverStandings}.`);
     throw error;
   }
 }
 
 async function createLapTimesTable() {
-  console.info(`⌛ Creating table lap_times...`);
+  console.info(`⌛ Creating table ${TableNames.lapTimes}...`);
   try {
-    await database.schema.createTable("lap_times", table => {
+    await database.schema.createTable(TableNames.lapTimes, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
@@ -226,17 +226,17 @@ async function createLapTimesTable() {
       table.string("time");
       table.integer("milliseconds");
     });
-    console.info("✅ Table lap_times created.");
+    console.info(`✅ Table ${TableNames.lapTimes} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table lap_times.`);
+    console.info(`❌ An error occured while creating table ${TableNames.lapTimes}.`);
     throw error;
   }
 }
 
 async function createPitStopsTable() {
-  console.info(`⌛ Creating table pit_stops...`);
+  console.info(`⌛ Creating table ${TableNames.pitStops}...`);
   try {
-    await database.schema.createTable("pit_stops", table => {
+    await database.schema.createTable(TableNames.pitStops, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
@@ -246,17 +246,17 @@ async function createPitStopsTable() {
       table.string("duration");
       table.integer("milliseconds");
     });
-    console.info("✅ Table pit_stops created.");
+    console.info(`✅ Table ${TableNames.pitStops} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table pit_stops.`);
+    console.info(`❌ An error occured while creating table ${TableNames.pitStops}.`);
     throw error;
   }
 }
 
 async function createQualifyingResultsTable() {
-  console.info(`⌛ Creating table qualifying_results...`);
+  console.info(`⌛ Creating table ${TableNames.qualifyingResults}...`);
   try {
-    await database.schema.createTable("qualifying_results", table => {
+    await database.schema.createTable(TableNames.qualifyingResults, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
@@ -267,17 +267,17 @@ async function createQualifyingResultsTable() {
       table.string("q2");
       table.string("q3");
     });
-    console.info("✅ Table qualifying_results created.");
+    console.info(`✅ Table ${TableNames.qualifyingResults} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table qualifying_results.`);
+    console.info(`❌ An error occured while creating table ${TableNames.qualifyingResults}.`);
     throw error;
   }
 }
 
 async function createRaceResultsTable() {
-  console.info(`⌛ Creating table race_results...`);
+  console.info(`⌛ Creating table ${TableNames.raceResults}...`);
   try {
-    await database.schema.createTable("race_results", table => {
+    await database.schema.createTable(TableNames.raceResults, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
@@ -297,17 +297,17 @@ async function createRaceResultsTable() {
       table.float("fastest_lap_speed");
       table.integer("status_id").references("id").inTable("statuses");
     });
-    console.info("✅ Table race_results created.");
+    console.info(`✅ Table ${TableNames.raceResults} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table race_results.`);
+    console.info(`❌ An error occured while creating table ${TableNames.raceResults}.`);
     throw error;
   }
 }
 
 async function createSprintResultsTable() {
-  console.info(`⌛ Creating table sprint_results...`);
+  console.info(`⌛ Creating table ${TableNames.sprintResults}...`);
   try {
-    await database.schema.createTable("sprint_results", table => {
+    await database.schema.createTable(TableNames.sprintResults, table => {
       table.increments("id").primary();
       table.integer("race_id").references("id").inTable("races");
       table.integer("driver_id").references("id").inTable("drivers");
@@ -325,9 +325,9 @@ async function createSprintResultsTable() {
       table.string("fastest_lap_time");
       table.integer("status_id").references("id").inTable("statuses");
     });
-    console.info("✅ Table sprint_results created.");
+    console.info(`✅ Table ${TableNames.sprintResults} created.`);
   } catch (error) {
-    console.info(`❌ An error occured while creating table sprint_results.`);
+    console.info(`❌ An error occured while creating table ${TableNames.sprintResults}.`);
     throw error;
   }
 }

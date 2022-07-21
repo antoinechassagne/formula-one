@@ -1,25 +1,20 @@
-// @ts-nocheck
-const { snakeToCamel, camelToSnake } = require("../Utils");
+import { snakeToCamel, camelToSnake } from "../Utils";
+import { GenericObject } from "../../types";
 
-function serialize(obj) {
-  if (!obj) return obj;
+export function serialize(obj: GenericObject) {
   return Object.keys(obj).reduce((mappedData, key) => {
     mappedData[camelToSnake(key)] = obj[key];
     return mappedData;
-  }, {});
+  }, {} as GenericObject);
 }
 
-function deserialize(obj) {
-  if (!obj) return obj;
+export function deserialize(obj: GenericObject) {
   return Object.keys(obj).reduce((mappedData, key) => {
     mappedData[snakeToCamel(key)] = obj[key];
     return mappedData;
-  }, {});
+  }, {} as GenericObject);
 }
 
-function deserializeMany(items) {
-  if (!items) return [];
+export function deserializeMany<T>(items: T[]) {
   return items.map(item => deserialize(item));
 }
-
-module.exports = { serialize, deserialize, deserializeMany };

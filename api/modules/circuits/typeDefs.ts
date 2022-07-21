@@ -1,4 +1,4 @@
-module.exports = `
+export default `
   type Query {
     circuit(id: ID!): Circuit
     circuits(query: CircuitsInput, skip: Int, limit: Int): [Circuit]!

@@ -1,30 +1,30 @@
-// @ts-nocheck
 /* eslint-disable no-console */
-const path = require("path");
-const database = require("../../index");
-const { getRowsToInsert, updateTablesTracking } = require("./services/TablesTracking");
-const Extraction = require("./services/Extraction");
-const mapping = require("./mapping");
+import path from "path";
+import database from "../../index";
+import { getRowsToInsert, updateTablesTracking } from "./services/TablesTracking";
+import Extraction from "./services/Extraction";
+import mapping from "./mapping";
+import { TableNames } from "../types";
 
 const extraction = new Extraction(path.resolve(__dirname, "../../data"), mapping);
 
 (async function () {
   try {
     for (const tableName of [
-      "circuits",
-      "teams",
-      "drivers",
-      "seasons",
-      "statuses",
-      "races",
-      "team_results",
-      "team_standings",
-      "driver_standings",
-      "lap_times",
-      "pit_stops",
-      "qualifying_results",
-      "race_results",
-      "sprint_results"
+      TableNames.circuits,
+      TableNames.teams,
+      TableNames.drivers,
+      TableNames.seasons,
+      TableNames.statuses,
+      TableNames.races,
+      TableNames.teamResults,
+      TableNames.teamStandings,
+      TableNames.driverStandings,
+      TableNames.lapTimes,
+      TableNames.pitStops,
+      TableNames.qualifyingResults,
+      TableNames.raceResults,
+      TableNames.sprintResults
     ]) {
       await populateTable(tableName);
     }
@@ -35,7 +35,7 @@ const extraction = new Extraction(path.resolve(__dirname, "../../data"), mapping
   }
 })();
 
-async function populateTable(tableName) {
+async function populateTable(tableName: TableNames) {
   console.info(`⌛ Populating table ${tableName}...`);
   try {
     const rows = await extraction.getRows(tableName);

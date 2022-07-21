@@ -5,6 +5,7 @@
     "allowJs": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "noEmitOnError": true,
     "strict": true,
     "resolveJsonModule": true,

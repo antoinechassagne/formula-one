@@ -1,7 +1,8 @@
-// @ts-nocheck
-const database = require("../../../index");
+import database from "../../../index";
+import { Entity } from "../../../../types";
+import { TableNames } from "../../types";
 
-async function getRowsToInsert(tableName, rows) {
+export async function getRowsToInsert(tableName: TableNames, rows: Entity[]) {
   const [tracking] = await database("tables_tracking").where({
     table_name: tableName
   });
@@ -9,7 +10,7 @@ async function getRowsToInsert(tableName, rows) {
   return rows.filter(row => parseInt(row.id, 10) > tracking.last_id_inserted);
 }
 
-function updateTablesTracking(tableName, ids) {
+export function updateTablesTracking(tableName: TableNames, ids: string[]) {
   if (!ids.length) return;
   database("tables_tracking")
     .insert({
@@ -19,5 +20,3 @@ function updateTablesTracking(tableName, ids) {
     .onConflict("table_name")
     .merge();
 }
-
-module.exports = { getRowsToInsert, updateTablesTracking };

@@ -1,5 +1,14 @@
-// @ts-nocheck
-module.exports = [
+import { TableNames } from "../types";
+
+export type TableMapping = {
+  from: string;
+  to: TableNames;
+  columns: { from: string; to: string; with?: (value: any) => any }[];
+};
+
+export type TablesMapping = TableMapping[];
+
+export default [
   {
     from: "circuits",
     to: "circuits",
@@ -126,7 +135,7 @@ module.exports = [
       {
         from: "status",
         to: "disqualified",
-        with(value) {
+        with(value: any) {
           return value === "D";
         }
       }
@@ -314,4 +323,4 @@ module.exports = [
       }
     ]
   }
-];
+] as TablesMapping;

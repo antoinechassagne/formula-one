@@ -1,6 +1,5 @@
-// @ts-nocheck
-function uniqueBy(array, property) {
-  return [...new Map(array.map(item => [item[property], item])).values()];
+export default function uniqueBy<T>(array: T[], propertyName: keyof T): T[] {
+  return array.filter((item, index, fullArray) => {
+    return fullArray.findIndex(i => i[propertyName] === item[propertyName]) === index;
+  });
 }
-
-module.exports = uniqueBy;

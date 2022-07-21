@@ -1,25 +1,25 @@
 /* eslint-disable no-console */
-// @ts-nocheck
-const database = require("../index");
+import database from "../index";
+import { TableNames } from "./types";
 
 (async function () {
   try {
     for (const tableName of [
-      "sprint_results",
-      "race_results",
-      "qualifying_results",
-      "pit_stops",
-      "lap_times",
-      "driver_standings",
-      "team_standings",
-      "team_results",
-      "races",
-      "statuses",
-      "seasons",
-      "drivers",
-      "teams",
-      "circuits",
-      "tables_tracking"
+      TableNames.sprintResults,
+      TableNames.raceResults,
+      TableNames.qualifyingResults,
+      TableNames.pitStops,
+      TableNames.lapTimes,
+      TableNames.driverStandings,
+      TableNames.teamStandings,
+      TableNames.teamResults,
+      TableNames.races,
+      TableNames.statuses,
+      TableNames.seasons,
+      TableNames.drivers,
+      TableNames.teams,
+      TableNames.circuits,
+      TableNames.tablesTracking
     ]) {
       await dropTable(tableName);
     }
@@ -30,7 +30,7 @@ const database = require("../index");
   }
 })();
 
-async function dropTable(tableName) {
+async function dropTable(tableName: TableNames) {
   try {
     const exists = await database.schema.hasTable(tableName);
     if (exists) {

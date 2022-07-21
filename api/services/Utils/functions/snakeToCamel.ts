@@ -1,7 +1,3 @@
-// @ts-nocheck
-function snakeToCamelCase(str) {
-  if (!str || typeof str !== "string") return str;
-  return str.replace(/(_\w)/g, match => match[1].toUpperCase());
+export default function snakeToCamelCase(str: string) {
+  return str ? str.replace(/(_\w)/g, match => match[1].toUpperCase()) : str;
 }
-
-module.exports = snakeToCamelCase;

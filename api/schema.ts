@@ -1,8 +1,7 @@
-// @ts-nocheck
-const path = require("path");
-const { loadFilesSync } = require("@graphql-tools/load-files");
-const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
-const { makeExecutableSchema } = require("@graphql-tools/schema");
+import path from "path";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
 function loadTypeDefs() {
   return loadFilesSync(path.join(__dirname, "modules/**/typeDefs.js"));
@@ -28,4 +27,4 @@ function buildSchema() {
   return makeExecutableSchema({ typeDefs, resolvers });
 }
 
-module.exports = buildSchema();
+export default buildSchema();

@@ -1,9 +1,3 @@
-// @ts-nocheck
-function camelToSnake(str) {
-  if (!str || typeof str !== "string") {
-    return str;
-  }
-  return str.replace(/([A-Z])/g, (_, group) => `_${group.toLowerCase()}`).replace(/^_/, "");
+export default function camelToSnake(str: string) {
+  return str ? str.replace(/([A-Z])/g, (_, group) => `_${group.toLowerCase()}`).replace(/^_/, "") : str;
 }
-
-module.exports = camelToSnake;
